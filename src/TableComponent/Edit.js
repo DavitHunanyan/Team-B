@@ -14,10 +14,14 @@ class Edit  extends Component{
 				Email:this.refs.email.value
              
 			}
+			let self=this;
 			//console.log("save edited data",editObj);
 			alert("Save edited contact");
-			call('http://crmbetb.azurewebsites.net/api/Contacts?Guid='+this.props.data.Guid,"PUT",editObj).then();
-			this.props.save();
+			call('http://crmbetb.azurewebsites.net/api/Contacts?Guid='+this.props.data.Guid,"PUT",editObj).then(function(data){
+				self.props.update();
+			    self.props.save();
+			});
+			
 			}
 			
 			render(){
