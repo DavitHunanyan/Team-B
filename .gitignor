@@ -45,4 +45,4 @@ ext/mkinstalldirs
 ext/run-tests.php
 ext/.deps
 ext/libtool
-node_modules
+node_modules/
