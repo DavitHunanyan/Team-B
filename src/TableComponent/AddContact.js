@@ -19,7 +19,7 @@ class AddContact extends Component{
 				Country:this.refs.country.value,
 				Email:this.refs.email.value
 			}
-			this.props.update();
+			
 			call('http://crmbetb.azurewebsites.net/api/Contacts','POST',newContact)
 			// .then(function(response){
 			// 	guid = response;

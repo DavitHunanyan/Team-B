@@ -17,7 +17,6 @@ class Edit  extends Component{
 			//console.log("save edited data",editObj);
 			alert("Save edited contact");
 			call('http://crmbetb.azurewebsites.net/api/Contacts?Guid='+this.props.data.Guid,"PUT",editObj).then();
-			this.props.update();
 			this.props.save();
 			}
 			

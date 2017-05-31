@@ -28,7 +28,7 @@ class Table extends Component{
 				this.addContact = this.addContact.bind(this);
 				this.back = this.back.bind(this);
 				this.delete = this.delete.bind(this);
-				this.update = this.update.bind(this);
+				
 				this.getAddData = this.getAddData.bind(this);
 			}
 			isDisable(disabled)	{
@@ -45,7 +45,6 @@ class Table extends Component{
 				});
 		     }
 			 sendMail(){
-				 	 this.update();
 				 if(this.state.guids.length!==0){
 					call('http://crmbetb.azurewebsites.net/api/SendMail/1','POST',this.state.guids);
 				 }
@@ -78,12 +77,9 @@ class Table extends Component{
 				call('http://crmbetb.azurewebsites.net/api/Contacts?Guid='+this.state.guids,'DELETE');
 				alert("detele")
 				this.setState({disabled:true});
-                this.update();
+             
 			}
-			update(){
-				window.location.reload();
-				
-			}
+			
 			render(){
 				console.log("this.state.guids",this.state.guids);
 				if(this.state.addContact){
