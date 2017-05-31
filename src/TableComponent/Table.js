@@ -108,6 +108,9 @@ class Table extends Component {
 						disabled: true
 					});
 				});
+				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
+					this.state.checkedBoxArray[i].checked = false;
+				}
 
 			}
 			update() {
