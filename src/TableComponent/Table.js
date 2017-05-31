@@ -16,7 +16,7 @@ class Table extends Component{
 				  editObj:{},
 				  disabled:true,
 				  addContact:false,
-				  allchecked:false,
+				  
 				  response:[]
 				};
 				this.sendMail = this.sendMail.bind(this);
@@ -45,13 +45,14 @@ class Table extends Component{
 				});
 		     }
 			 sendMail(){
-				 	 this.update();
+
+				 	 let self = this;
 				 if(this.state.guids.length!==0){
-					call('http://crmbetb.azurewebsites.net/api/SendMail/1','POST',this.state.guids);
+					call('http://crmbetb.azurewebsites.net/api/SendMail/1','POST',this.state.guids)
 				 }
 				 alert("Send Ok");
 				 this.setState({disabled:true});
-				 this.setState({allchecked:true});
+				
 			
 			 }
 			 onClickEditBtn(event){
@@ -87,7 +88,7 @@ class Table extends Component{
 				
 				call('http://crmbetb.azurewebsites.net/api/contacts','GET').then(response => {
 				this.setState({data:response});
-
+				console.log(this.state.data);
 				});
 			}
 			render(){
