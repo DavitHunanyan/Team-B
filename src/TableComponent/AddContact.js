@@ -23,29 +23,10 @@ class AddContact extends Component{
 			let self =this;
 			call('http://crmbetb.azurewebsites.net/api/Contacts','POST',newContact).then(function(data){
 				self.props.update();
-			    self.props.save();
+			    
 			});
-			// .then(function(response){
-			// 	guid = response;
-			// 	AddContact.props.getAddData(
-			// 			 {
-			// 	"Full name":this.refs.fullName.value,
-			// 	"Company name":this.refs.companyName.value,
-			// 	Position:this.refs.position.value,
-			// 	Country:this.refs.country.value,
-			// 	Email:this.refs.email.value,
-			// 	Guid:guid
-			//             }
-			// 	);
-			// });
-			 	alert("save");
+			 	//alert("save");
 				 this.props.back();
-						 
-			
-			
-				
-			console.log("Post new contact");
-			this.props.getAddData()
 			   }else{
 				alert("no valid contact");
 			}

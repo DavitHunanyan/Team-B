@@ -1,50 +1,45 @@
 import React, { Component } from 'react';
 import '../Fetch.js';
 
-class TableRow extends Component{
-		     constructor(props){
-			     super(props);
-		     this.state={
-		                guIdArray:[],
-						checkedRow:false
-		     			}
-			    
-				 this.checkBoxOnChange=this.checkBoxOnChange.bind(this);
-				
-		     }
-	    
-		 checkBoxOnChange(event){
-			 let index = event.target.id;
-			 if(event.target.checked === true){
-				 this.state.guIdArray.push(this.props.dataArray[index].Guid);
-				 
-			 }else{
-				 for(let i=0;i<this.state.guIdArray.length;++i){
+class TableRow extends Component {
+	constructor(props) {
+		super(props);
 
-					 if(this.props.dataArray[index].Guid === this.state.guIdArray[i])
-					 {
-                    this.state.guIdArray.splice(i,1);
-					
-					 }
-					
-				 }
-			 }
-			 this.props.guids(this.state.guIdArray);
-			 if(this.state.guIdArray.length === 0){
-				this.props.isdisabledprop(true);
-			 }else{
-				 this.props.isdisabledprop(false);
-			 }
-			 
-			//console.log("GuId Array",this.state.guIdArray);
-		 }
+		this.checkBoxOnChange = this.checkBoxOnChange.bind(this);
+
+	}
+
+	checkBoxOnChange(event) {
+		this.props.checkBoxChanges(event.target);
+		let index = event.target.id;
+		if (event.target.checked === true) {
+			this.props.guids.push(this.props.dataArray[index].Guid);
+
+		} else {
+			for (let i = 0; i < this.props.guids.length; ++i) {
+
+				if (this.props.dataArray[index].Guid === this.props.guids[i]) {
+					this.props.guids.splice(i, 1);
+
+				}
+
+			}
+		}
+		if (this.props.guids.length === 0) {
+			this.props.isdisabledprop(true);
+		} else {
+			this.props.isdisabledprop(false);
+		}
+
+		//console.log("GuId Array",this.state.guIdArray);
+	}
 		
 	     render(){
 		     const data=this.props.dataArray
 		      const row = data.map((data,index)=>
 		     	<tr key={index} ref={index}>
 					 <td key={index} id="checkbox">
-						 <input type="checkbox" ref={index} id={index} onChange ={this.checkBoxOnChange } defaultChecked={this.state.checkedRow} /> 
+						 <input type="checkbox" ref={index} id={index} onChange ={this.checkBoxOnChange }  /> 
 					 </td>
 			     	<td key={data["Full name"]}>
 				     	{data["Full name"]}

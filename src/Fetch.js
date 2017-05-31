@@ -1,5 +1,5 @@
 export function call(url, method, body = false, error_message = "Something went wrong"){
-  if(body !== false && method!=="GET" &&  method!=="DELETE"){
+  if(body !== false && method!=="GET"){
     body = JSON.stringify(body);
   }
   return fetch(url,{method: method,

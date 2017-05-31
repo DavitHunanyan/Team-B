@@ -1,31 +1,30 @@
 import React,{Component} from 'react';
 import call from '../Fetch.js';
-class Edit  extends Component{
-			constructor(props){
-				super(props);
-			this.save=this.save.bind(this);	
-			}
-			save(){
-			let editObj={
-				Fullname:this.refs.fullName.value,
-				Companyname:this.refs.companyName.value,
-				Position:this.refs.position.value,
-				Country:this.refs.country.value,
-				Email:this.refs.email.value
-             
-			}
-			let self=this;
-			//console.log("save edited data",editObj);
-			alert("Save edited contact");
-			call('http://crmbetb.azurewebsites.net/api/Contacts?Guid='+this.props.data.Guid,"PUT",editObj).then(function(data){
-				self.props.update();
-			    self.props.save();
-			});
-			
-			}
+class Edit extends Component {
+	constructor(props) {
+		super(props);
+		this.save = this.save.bind(this);
+	}
+	save() {
+		let editObj = {
+			Fullname: this.refs.fullName.value,
+			Companyname: this.refs.companyName.value,
+			Position: this.refs.position.value,
+			Country: this.refs.country.value,
+			Email: this.refs.email.value
+
+		}
+		let self = this;
+		//console.log("save edited data",editObj);
+		//alert("Save edited contact");
+		call('http://crmbetb.azurewebsites.net/api/Contacts?Guid=' + this.props.data.Guid, "PUT", editObj).then(function(data) {
+			self.props.update();
+
+		});
+		this.props.save();
+	}
 			
 			render(){
-				//console.log("editing data",this.props.data);
 				return(
 				<div>
 					<p>Full Name <input type="text" defaultValue={this.props.data["Full name"]} ref="fullName"/></p>
