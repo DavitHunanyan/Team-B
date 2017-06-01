@@ -6,6 +6,7 @@ import call from '../Fetch.js';
 import Edit from './Edit.js';
 import AddContact from './AddContact';
 
+
 class Table extends Component {
 	constructor(props) {
 		super(props);
@@ -126,10 +127,10 @@ class Table extends Component {
 				if(this.state.addContact){
 					return(
 						<div className="UserTable">
-					<div id="scroll">
-			       <AddContact back={this.back}  update={this.update}/>
-			        </div>
-				</div> 
+							<div id="scroll">
+			       				<AddContact back={this.back}  update={this.update}/>
+			        		</div>
+						</div> 
 					);
 				}
 				if(this.state.edit){

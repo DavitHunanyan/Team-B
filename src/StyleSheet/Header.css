@@ -70,7 +70,7 @@ h1{
     font-size: 1.2em;
 }
 #sidenav {
-    height: 100%;
+    height: 100%; 
     width: 0;
     position: fixed;
     z-index: 1;
@@ -134,7 +134,7 @@ a :active{
 
 
 
-@media (max-width:768px) {
+@media (max-width:866px) {
 
     .menu_icon{
         display: block;

@@ -10,7 +10,7 @@
 #scroll{
 	width: 100%;
     height: 80%;
-	overflow-y:scroll;
+	
 	
 }
 .table {
@@ -48,36 +48,66 @@
 	width: 100%;
 }
 .editbutton{
-	border-radius: 5px;
-	background: #009688;
-	color: white;
-	padding: 3px;
-	margin: 5px;
+	-webkit-box-shadow:inset 0px 0px 15px 3px #23395e;
+	box-shadow:inset 0px 0px 15px 3px #23395e;
+	background-color:#2e466e;
+	-moz-border-radius:17px;
+	-webkit-border-radius:17px;
+	border-radius:17px;
+	border:1px solid #1f2f47;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:12px;
+	padding:0 6px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #263666;
+	outline: none;
 }
 .deleteBtn{
-	border-radius: 5px;
-	background: red;
-	color:white;
-	margin: 5px;
-	padding: 5px;
+	background-color:red;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Georgia;
+	font-size:15px;
+	padding:10px 15px;
+	text-decoration:none;
+	outline:none;
+	margin: 10px 5px;
 }
 .savebutton{
 	border-radius: 5px;
 	background: blue;
 	color:white;
-	margin: 5px;
+	margin: 10px 5px;
 }
 #sendBtn{
-	border-radius: 5px;
-	background: blue;
-	color: white;
-	padding: 5px;
+	background-color:#1abd11;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Georgia;
+	font-size:15px;
+	padding:10px 15px;
+	text-decoration:none;
+	outline:none;
+	margin: 10px 5px;
 }
 #sendBtn:disabled{
- background: #009688;
+ background: #666467;
 }
 #deleteBtn:disabled{
- background:#54211F;
+ background:#666467;
 }
 #theader{
 	height: 30px;
@@ -123,12 +153,19 @@
 	 background-color: #735a73; 
 }
 
+
+
 	
-	@media (max-width:768px) {
+	@media (max-width:866px) {
 
 	.UserTable{
 		width:100%;
 	}
+	
+}
+
+@media (max-width:733px) {
+	
 	#scroll{
 		overflow:scroll;
 	}

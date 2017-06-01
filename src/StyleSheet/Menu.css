@@ -43,7 +43,7 @@ a :active{
     background-color:#513654;
 }
 
-@media (max-width:768px) {
+@media (max-width:866px) {
 
     .menu{
         display: none;

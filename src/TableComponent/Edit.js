@@ -31,8 +31,8 @@ class Edit extends Component {
 					<p>Company <input type="text"  defaultValue={this.props.data["Company name"]}ref="companyName"/></p>
 					<p>Position <input type="text"  defaultValue={this.props.data.Position} ref="position"/></p>
 					<p>Country <input type="text"  defaultValue={this.props.data.Country} ref="country"/></p>
-					<p>Email <input type="text"  defaultValue={this.props.data.Email} ref="email"/></p>
-					<p><button onClick={this.save}>Save</button><button onClick={this.props.cancel}>Cancel</button></p>
+					<p>Email <input type="email"  defaultValue={this.props.data.Email} ref="email"/></p>
+					<p><button id="sendBtn" onClick={this.save}>Save</button><button className="deleteBtn" onClick={this.props.cancel}>Cancel</button></p>
 				</div>
 				);
 			}
