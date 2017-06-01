@@ -167,6 +167,9 @@
 .btn_table:hover{
 	 background-color: #735a73; 
 }
+.BtnBox{
+	margin-top:10px;
+}
 
 .send_mail{
 	padding: 6px;

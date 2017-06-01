@@ -4,7 +4,7 @@ import TableRow from './TableRow.js';
 import '../StyleSheet/Table.css';
 import call from '../Fetch.js';
 import Edit from './Edit.js';
-import AddContact from './AddContact';
+import AddContact from './AddContact.js';
 
 
 class Table extends Component {
@@ -146,6 +146,7 @@ class Table extends Component {
 								call('http://crmbetb.azurewebsites.net/api/MailingLists/new?name='+this.refs.creatMList.value, 'POST', this.state.guids).then(function(){
 									self.setState({
 												creatListBtndisabled: true,
+												disabled: true,
 												guids: []
 											});
 									self.refs.creatMList.value="";
@@ -192,6 +193,7 @@ class Table extends Component {
 			     	</table>
 					
 			     </div>
+				 <div className="BtnBox">
 				 	<button key ="addBtn" id="addBtn"  onClick={this.addContact}>Add Contact</button>
 				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabled} onClick={this.sendMail}>Send Mail</button>
 					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
@@ -199,10 +201,7 @@ class Table extends Component {
 					  <input type="text" ref="creatMList" placeholder="Mail List Name" onChange={this.mailListName}/>
 					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Creat Mail List</button>
 					  </div>
-					  <  form name="form1" id ="formUploadFile" method="post" enctype="multipart/form-data" action="http://crmbetb.azurewebsites.net/api/Contacts/upload">	
-						<input name="image1" type="file" />
-						<input type="submit" value="Submit" />
-						</form>
+					  </div>
 				 </div> 
 
 			

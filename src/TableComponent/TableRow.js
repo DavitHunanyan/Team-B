@@ -53,7 +53,6 @@ class TableRow extends Component {
 			     	<td key= {data.Country}>
 			     	    {data.Country}
 			     	</td>
-					
 			     	<td key={data.Email}>
 			     	    {data.Email}
 			     	</td>
