@@ -58,7 +58,7 @@ class TableRow extends Component {
 			     	    {data.Email}
 			     	</td>
 					 
-			     	<td ><button id ={index} onClick={this.props.editBtn} className="editbutton">Edit</button></td>
+			     	<td id="pencil"><i className="glyphicon glyphicon-pencil" id ={index} onClick={this.props.editBtn} ></i></td>
 		     	</tr>
 		     	);
 		     	return(

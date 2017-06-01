@@ -10,7 +10,7 @@
 #scroll{
 	width: 100%;
     height: 80%;
-	
+	overflow-y:scroll;
 	
 }
 .table {
@@ -47,23 +47,8 @@
 .addtablerow{
 	width: 100%;
 }
-.editbutton{
-	-webkit-box-shadow:inset 0px 0px 15px 3px #23395e;
-	box-shadow:inset 0px 0px 15px 3px #23395e;
-	background-color:#2e466e;
-	-moz-border-radius:17px;
-	-webkit-border-radius:17px;
-	border-radius:17px;
-	border:1px solid #1f2f47;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:0 6px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #263666;
-	outline: none;
+#pencil{
+	padding-left: 25px;
 }
 .deleteBtn{
 	background-color:red;
@@ -103,11 +88,56 @@
 	outline:none;
 	margin: 10px 5px;
 }
+#formUploadFile{
+	display: inline-block;
+}
+#maillist{
+	display: inline-block;
+	border: solid 2px grey;
+	padding: 5px;
+	height: 60px;
+	border-radius: 10px;
+}
+#createMailListBtn{
+	background-color:#1abd11;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Georgia;
+	font-size:15px;
+	padding:10px 15px;
+	text-decoration:none;
+	outline:none;
+	
+}
+#addBtn{
+	background-color:blue;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Georgia;
+	font-size:15px;
+	padding:10px 15px;
+	text-decoration:none;
+	outline:none;
+	margin: 10px 5px;
+}
 #sendBtn:disabled{
  background: #666467;
 }
 #deleteBtn:disabled{
  background:#666467;
+}
+#createMailListBtn:disabled{
+	background:#666467;
 }
 #theader{
 	height: 30px;

@@ -17,7 +17,8 @@ class Table extends Component {
 			editObj: {},
 			disabled: true,
 			addContact: false,
-			checkedBoxArray: []
+			checkedBoxArray: [],
+			creatListBtndisabled:true
 		};
 		this.sendMail = this.sendMail.bind(this);
 		this.getGuid = this.getGuid.bind(this);
@@ -30,6 +31,8 @@ class Table extends Component {
 		this.delete = this.delete.bind(this);
 		this.update = this.update.bind(this);
 		this.checkBoxChanges = this.checkBoxChanges.bind(this);
+		this.createMailList = this.createMailList.bind(this);
+		this.mailListName = this.mailListName.bind(this);
 	}
 			checkBoxChanges(target) {
 				this.state.checkedBoxArray.push(target);
@@ -57,8 +60,9 @@ class Table extends Component {
 
 
 				if (this.state.guids.length !== 0) {
-					call('http://crmbetb.azurewebsites.net/api/SendMail/1', 'POST', this.state.guids).then(function() {
-						alert("Send Ok");
+					call('http://crmbetb.azurewebsites.net/api/SendMail/1', 'POST', this.state.guids).then(function(response) {
+						console.log("status",response);
+						alert("Send");
 					});
 				}
 
@@ -122,6 +126,43 @@ class Table extends Component {
 					});
 				});
 			}
+			mailListName(){
+				if(this.refs.creatMList.value){
+					this.setState({
+					creatListBtndisabled:false	
+				
+				})
+				}else{
+					this.setState({
+					creatListBtndisabled:true	
+				
+				})
+				}
+			}
+			createMailList(){
+				let self = this;
+				if(this.refs.creatMList.value){
+						if(this.state.guids.length > 0){
+								call('http://crmbetb.azurewebsites.net/api/MailingLists/new?name='+this.refs.creatMList.value, 'POST', this.state.guids).then(function(){
+									self.setState({
+												creatListBtndisabled: true,
+												guids: []
+											});
+									self.refs.creatMList.value="";
+
+								for (let i = 0; i < self.state.checkedBoxArray.length; ++i) {
+									self.state.checkedBoxArray[i].checked = false;
+									}
+								})
+								console.log("creat New Mail List");
+								
+						}else{
+							alert("Did not Choose Contact");
+						}
+				}else{
+					alert("Mail List Name No valid");
+				}
+			}
 			render(){
 				//console.log("this.state.guids",this.state.guids);
 				if(this.state.addContact){
@@ -151,9 +192,17 @@ class Table extends Component {
 			     	</table>
 					
 			     </div>
+				 	<button key ="addBtn" id="addBtn"  onClick={this.addContact}>Add Contact</button>
 				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabled} onClick={this.sendMail}>Send Mail</button>
 					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
-					 <button key ="addBtn" id="sendBtn"  onClick={this.addContact}>Add Contact</button>
+					  <div id="maillist">
+					  <input type="text" ref="creatMList" placeholder="Mail List Name" onChange={this.mailListName}/>
+					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Creat Mail List</button>
+					  </div>
+					  <  form name="form1" id ="formUploadFile" method="post" enctype="multipart/form-data" action="http://crmbetb.azurewebsites.net/api/Contacts/upload">	
+						<input name="image1" type="file" />
+						<input type="submit" value="Submit" />
+						</form>
 				 </div> 
 
 			

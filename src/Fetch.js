@@ -9,13 +9,15 @@ export function call(url, method, body = false, error_message = "Something went 
   )
   .then(function(response){
     if (!response.ok) {
-      return {error: true, message: error_message};
+      return response;
     }
+     console.log(response);
     return response;
+   
   })
   .then(response => response.json())
   .catch((error) => {
-      return {error: true, message: error_message};
+      return error;
     });
 }
 export default call;
