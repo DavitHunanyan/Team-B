@@ -48,6 +48,7 @@ class Header extends Component{
              </div>
              <ul className="menu_list">
                  <li className="menu_item"><NavLink activeClassName="active" to='/table'>Contacts</NavLink></li>
+                  <li className="menu_item"><NavLink activeClassName="active" to='/addmailinglist'>MailList </NavLink></li>
                 {/* <li className="menu_item"><NavLink activeClassName="active" to='/addmailinglist'>MailList </NavLink></li>
                  <li className="menu_item"><NavLink activeClassName="active" to='/sendemails'> Send Email </NavLink></li>
                  <li className="menu_item"><NavLink activeClassName="active" to='/login'>Log Out </NavLink></li>*/}

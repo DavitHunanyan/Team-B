@@ -234,7 +234,7 @@ class Table extends Component {
 					  <input type="text" ref="creatMList" placeholder="Mail List Name" onChange={this.mailListName}/>
 					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Creat Mail List</button>
 					  </div>
-					  <button  id="addBtn"  onClick={this.uploadFile}>Upload File</button>
+					  <button  className="deleteBtn" id="Upload_btn" onClick={this.uploadFile}>Upload File</button>
 					  </div>
 				 </div> 
 

@@ -5,7 +5,7 @@
     color: #513654;
     box-sizing: border-box;
 	padding:25px;
-	overflow:hidden;
+	overflow:hidden; 
 }
 #scroll{
 	width: 100%;
@@ -88,19 +88,24 @@
 	outline:none;
 	margin: 7px 5px;
 }
+
+#Upload_btn{
+	background-color: goldenrod;
+}
+
 #formUploadFile{
 	display: inline-block;
 }
 #maillist{
 	display: inline-block;
-	border: solid 2px grey;
+	border: solid 2px #167ec9;
 	padding: 5px;
 	height: 60px;
 	border-radius: 10px;
 }
 #templateSelectBox{
 	display: inline-block;
-	border: solid 2px grey;
+	border: solid 2px #167ec9;
 	height: 60px;
 	border-radius: 10px;
 }
@@ -145,6 +150,61 @@
 #createMailListBtn:disabled{
 	background:#666467;
 }
+
+
+.See_Contacts {
+   border: 2px solid #0a3c59;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   padding: 0 12px;
+   -webkit-border-radius: 19px;
+   -moz-border-radius: 19px;
+   border-radius: 19px;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   text-shadow: #7ea4bd 0 1px 0;
+   color: #003357;
+   font-size: 14px;
+   font-family: helvetica, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   margin: 3px;
+   outline: none;
+   }
+.See_Contacts:hover {
+   border: 2px solid #0a3c59;
+   text-shadow: #1e4158 0 1px 0;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   color: #fff;
+   }
+.See_Contacts:active {
+   text-shadow: #1e4158 0 1px 0;
+   border: 2px solid #0a3c59;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   background-image: -ms-linear-gradient(top, #3e779d 0%, #65a9d7 100%);
+   color: #fff;
+   outline: none;
+   }
+
+
+
 #theader{
 	height: 30px;
     color: #666467;
@@ -218,6 +278,44 @@
     text-align: center;
     font-size: 1.5em;
    
+}
+
+@media(max-width:334px){
+	#templateSelectBox{
+	
+	height: 110px;
+	padding: 6px;
+	}
+
+	#templateSelectBox{
+		margin-top: 15px;
+	}
+	
+}
+
+@media(max-width:191px){
+	#templateSelectBox{
+	
+	height: 130px;
+	padding: 6px;
+	}
+
+	#templateSelectBox{
+		margin-top: 15px;
+	}
+	
+}
+
+@media(max-width:384px){
+	#maillist{
+	
+	height: 110px;
+	
+}
+
+#createMailListBtn{
+	margin-top: 15px;
+}
 }
 
 

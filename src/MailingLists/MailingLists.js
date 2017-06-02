@@ -101,7 +101,7 @@ class MailingLists extends Component {
 					  <td key={data.Contacts.length}>
 				     	{data.Contacts.length}
                      </td>
-			     	<td ><button  id={index} onClick={this.seeContacts}>See Contacts</button></td>
+			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}>See Contacts</button></td>
 		     	</tr>
 		     	);
 		     	return(
