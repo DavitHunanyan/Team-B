@@ -5,6 +5,7 @@ import '../StyleSheet/Table.css';
 import call from '../Fetch.js';
 import Edit from './Edit.js';
 import AddContact from './AddContact.js';
+import UploadFile from './UploadFile.js';
 
 
 class Table extends Component {
@@ -18,7 +19,8 @@ class Table extends Component {
 			disabled: true,
 			addContact: false,
 			checkedBoxArray: [],
-			creatListBtndisabled:true
+			creatListBtndisabled:true,
+			uploadFile:false
 		};
 		this.sendMail = this.sendMail.bind(this);
 		this.getGuid = this.getGuid.bind(this);
@@ -33,6 +35,8 @@ class Table extends Component {
 		this.checkBoxChanges = this.checkBoxChanges.bind(this);
 		this.createMailList = this.createMailList.bind(this);
 		this.mailListName = this.mailListName.bind(this);
+		this.uploadFile=this.uploadFile.bind(this);
+		this.backfromUploadFile = this.backfromUploadFile.bind(this);
 	}
 			checkBoxChanges(target) {
 				this.state.checkedBoxArray.push(target);
@@ -96,6 +100,16 @@ class Table extends Component {
 			addContact() {
 				this.setState({
 					addContact: true
+				});
+			}
+			uploadFile() {
+				this.setState({
+					uploadFile: true
+				});
+			}
+			backfromUploadFile(){
+				this.setState({
+					uploadFile: false
 				});
 			}
 			back() {
@@ -166,6 +180,15 @@ class Table extends Component {
 			}
 			render(){
 				//console.log("this.state.guids",this.state.guids);
+				if(this.state.uploadFile){
+					return(
+						<div className="UserTable">
+							<div id="scroll">
+			       			<UploadFile back={this.backfromUploadFile} />	
+			        		</div>
+						</div> 
+					);
+				}
 				if(this.state.addContact){
 					return(
 						<div className="UserTable">
@@ -201,6 +224,7 @@ class Table extends Component {
 					  <input type="text" ref="creatMList" placeholder="Mail List Name" onChange={this.mailListName}/>
 					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Creat Mail List</button>
 					  </div>
+					  <button  id="addBtn"  onClick={this.uploadFile}>Upload File</button>
 					  </div>
 				 </div> 
 
