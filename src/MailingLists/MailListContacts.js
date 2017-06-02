@@ -17,12 +17,12 @@ class MailListContacts extends Component {
                                 </th>
                             </tr>
                         </thead>
-         console.log("contacts",data)
+      //   console.log("contacts",data)
 		      const row = data.map((data,index)=>
 		     	<tr key={index} ref={index}>
-					 <td key={index} id="checkbox">
+					 {/*<td key={index} id="checkbox">
 						 <input type="checkbox" ref={index} id={index} onChange ={this.checkBoxOnChange }  /> 
-					 </td>
+					 </td>*/}
 			     	 <td key={data["Full name"]}>
 				     	{data["Full name"]}
                      </td>
