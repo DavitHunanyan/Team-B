@@ -6,7 +6,7 @@ import call from '../Fetch.js';
 import Edit from './Edit.js';
 import AddContact from './AddContact.js';
 import UploadFile from './UploadFile.js';
-
+import TemplateSelect from './TemplateSelect.js';
 
 class Table extends Component {
 	constructor(props) {
@@ -20,7 +20,8 @@ class Table extends Component {
 			addContact: false,
 			checkedBoxArray: [],
 			creatListBtndisabled:true,
-			uploadFile:false
+			uploadFile:false,
+			TemplateId:0
 		};
 		this.sendMail = this.sendMail.bind(this);
 		this.getGuid = this.getGuid.bind(this);
@@ -37,6 +38,7 @@ class Table extends Component {
 		this.mailListName = this.mailListName.bind(this);
 		this.uploadFile=this.uploadFile.bind(this);
 		this.backfromUploadFile = this.backfromUploadFile.bind(this);
+		this.getSeletValue = this.getSeletValue.bind(this);
 	}
 			checkBoxChanges(target) {
 				this.state.checkedBoxArray.push(target);
@@ -64,7 +66,7 @@ class Table extends Component {
 
 
 				if (this.state.guids.length !== 0) {
-					call('http://crmbetb.azurewebsites.net/api/SendMail/1', 'POST', this.state.guids).then(function(response) {
+					call('http://crmbetb.azurewebsites.net/api/SendMail/'+this.state.TemplateId, 'POST', this.state.guids).then(function(response) {
 						console.log("status",response);
 						alert("Send");
 					});
@@ -178,6 +180,12 @@ class Table extends Component {
 					alert("Mail List Name No valid");
 				}
 			}
+			getSeletValue(value){
+				this.setState({
+					TemplateId:value
+				})
+				console.log("stateId",this.state.TemplateId);
+			}
 			render(){
 				//console.log("this.state.guids",this.state.guids);
 				if(this.state.uploadFile){
@@ -218,7 +226,11 @@ class Table extends Component {
 			     </div>
 				 <div className="BtnBox">
 				 	<button key ="addBtn" id="addBtn"  onClick={this.addContact}>Add Contact</button>
+					 <div id="templateSelectBox">
+						 <span>Template :</span>
+					 <TemplateSelect getValue={this.getSeletValue} />
 				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabled} onClick={this.sendMail}>Send Mail</button>
+					 </div>
 					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
 					  <div id="maillist">
 					  <input type="text" ref="creatMList" placeholder="Mail List Name" onChange={this.mailListName}/>

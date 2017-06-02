@@ -86,7 +86,7 @@
 	padding:10px 15px;
 	text-decoration:none;
 	outline:none;
-	margin: 10px 5px;
+	margin: 7px 5px;
 }
 #formUploadFile{
 	display: inline-block;
@@ -95,6 +95,12 @@
 	display: inline-block;
 	border: solid 2px grey;
 	padding: 5px;
+	height: 60px;
+	border-radius: 10px;
+}
+#templateSelectBox{
+	display: inline-block;
+	border: solid 2px grey;
 	height: 60px;
 	border-radius: 10px;
 }
