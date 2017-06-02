@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
-import call from '../Fetch.js';
 class UploadFile extends Component {
-	constructor(props) {
-		super(props);
-	}
+	
 	render(){
         return(
             <div>

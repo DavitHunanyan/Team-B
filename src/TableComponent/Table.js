@@ -21,7 +21,7 @@ class Table extends Component {
 			checkedBoxArray: [],
 			creatListBtndisabled:true,
 			uploadFile:false,
-			TemplateId:0
+			TemplateId:"1"
 		};
 		this.sendMail = this.sendMail.bind(this);
 		this.getGuid = this.getGuid.bind(this);
@@ -181,10 +181,8 @@ class Table extends Component {
 				}
 			}
 			getSeletValue(value){
-				this.setState({
-					TemplateId:value
-				})
-				console.log("stateId",this.state.TemplateId);
+					this.state.TemplateId=value;
+               //console.log("In State Id",this.state.TemplateId);
 			}
 			render(){
 				//console.log("this.state.guids",this.state.guids);
