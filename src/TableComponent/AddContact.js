@@ -34,14 +34,21 @@ class AddContact extends Component{
 				
 			return(
 				<div className="AddRow">
-				    <p>Full Name <input type="text"  ref="fullName"/></p>
-					<p>Company <input type="text" ref="companyName"/></p>
-					<p>Position <input type="text"   ref="position"/></p>
-					<p>Country <input type="text"   ref="country"/></p>
-					<p>Email <input type="text"   ref="email"/></p>
+					<div className="AddRoWBox">
+				    <span>Full Name</span>
+					<p>	<input type="text"  ref="fullName"/></p>
+					<span>Company</span>
+					<p> <input type="text" ref="companyName"/></p>
+					<span>Position </span>
+					<p><input type="text"   ref="position"/></p>
+					<span>Country</span>
+					<p><input type="text"   ref="country"/></p>
+					<span>Email</span>
+					<p><input type="text"   ref="email"/></p>
 
 				    <button  id="sendBtn" onClick={this.saveContact}>Save</button>
 					<button className="deleteBtn" onClick={this.props.back}>Back</button>
+					</div>
 				</div>
 					
 			);

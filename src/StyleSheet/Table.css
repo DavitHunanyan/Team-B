@@ -13,6 +13,7 @@
 	overflow-y:scroll;
 	
 }
+
 .table {
     width: 100%;
     margin: 0px auto;
@@ -214,8 +215,16 @@
 }
 
 .AddRow{
-	display:inline-block;
-    margin-top: 10px;
+height: 100%;
+width: 100%;
+ 
+}
+.AddRoWBox{
+	width: 300px;
+	margin:10px auto; 
+	border:solid 2px grey;
+	padding:10px 55px;
+	border-radius:10px;
 }
 
 .btn_table{

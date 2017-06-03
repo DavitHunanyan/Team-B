@@ -7,14 +7,16 @@ export function call(url, method, body = false, error_message = "Something went 
     body : body,
     }
   )
-  .then(function(response){
-    if (!response.ok) {
-      return response;
-    }
-     //console.log(response);
-    return response;
+   .then(function(response){
+   if (!response.ok) {
+     console.log(response.status);
+     return response;
+     
+   }
+    
+   return response;
    
-  })
+ })
   .then(response => response.json())
   .catch((error) => {
       return error;

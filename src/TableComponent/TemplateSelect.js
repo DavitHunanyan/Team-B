@@ -7,7 +7,7 @@ class TemplateSelect extends Component {
         // this.state={
         //     Template:[]
         // }
-		this.selectOnChange = this.selectOnChange.bind(this);
+		this.selectOnChange = this.selectOnChange.bind(this); 
 	}
     // componentDidMount(){
     //     call('http://crmbetb.azurewebsites.net/api/Templates', 'GET').then(response => {

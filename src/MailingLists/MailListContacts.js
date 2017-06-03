@@ -23,7 +23,7 @@ class MailListContacts extends Component {
 					 {/*<td key={index} id="checkbox">
 						 <input type="checkbox" ref={index} id={index} onChange ={this.checkBoxOnChange }  /> 
 					 </td>*/}
-			     	 <td key={data["Full name"]}>
+			     	 <td key={data["Full name"]}> 
 				     	{data["Full name"]}
                      </td>
                      <td key={["Company name"]}>
