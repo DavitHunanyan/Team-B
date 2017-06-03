@@ -24,15 +24,25 @@ class Edit extends Component {
 		this.props.save();
 	}
 			
-			render(){
+			render(){ 
 				return(
-				<div>
-					<p>Full Name <input type="text" defaultValue={this.props.data["Full name"]} ref="fullName"/></p>
-					<p>Company <input type="text"  defaultValue={this.props.data["Company name"]}ref="companyName"/></p>
-					<p>Position <input type="text"  defaultValue={this.props.data.Position} ref="position"/></p>
-					<p>Country <input type="text"  defaultValue={this.props.data.Country} ref="country"/></p>
-					<p>Email <input type="email"  defaultValue={this.props.data.Email} ref="email"/></p>
-					<p><button id="sendBtn" onClick={this.save}>Save</button><button className="deleteBtn" onClick={this.props.cancel}>Cancel</button></p>
+				<div className="AddRow">
+					<div className="AddRoWBox"> 
+				    <span>Full Name</span>
+					<p>	<input type="text" defaultValue={this.props.data["Full name"]} ref="fullName"/></p>
+					<span>Company</span>
+					<p> <input type="text"  defaultValue={this.props.data["Company name"]}ref="companyName"/></p>
+					<span>Position </span>
+					<p><input type="text"  defaultValue={this.props.data.Position} ref="position"/></p>
+					<span>Country</span>
+					<p><input type="text"  defaultValue={this.props.data.Country} ref="country"/></p>
+					<span>Email</span>
+					<p><input type="email"  defaultValue={this.props.data.Email} ref="email"/></p>
+
+				    <p><button id="sendBtn" onClick={this.save}>Save</button>
+					<button className="deleteBtn" onClick={this.props.cancel}>Cancel</button></p>
+
+					</div>
 				</div>
 				);
 			}
