@@ -17,11 +17,13 @@ class Table extends Component {
 			edit: false,
 			editObj: {},
 			disabled: true,
+			disabledSendBtn: true,
 			addContact: false,
 			checkedBoxArray: [],
 			creatListBtndisabled:true,
 			uploadFile:false,
-			TemplateId:"1"
+			TemplateId:"",
+			loading:true
 		};
 		this.sendMail = this.sendMail.bind(this);
 		this.getGuid = this.getGuid.bind(this);
@@ -55,29 +57,44 @@ class Table extends Component {
 				});
 			}
 			componentDidMount() {
-				call('http://crmbetb.azurewebsites.net/api/contacts', 'GET').then(response => {
-					this.setState({
-						data: response
-					});
-					//console.log("GET Data",response);
-				});
+				let self = this;
+				return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
+						if(response.status===200) {
+							return response.json();
+						}
+					}).then(response =>{
+						self.setState({
+							data:response,
+							loading:false
+						})
+					}).catch(error=>{
+						alert("Server Error")
+					})
 			}
 			sendMail() {
-
-
-				if (this.state.guids.length !== 0) {
-					call('http://crmbetb.azurewebsites.net/api/SendMail/'+this.state.TemplateId, 'POST', this.state.guids).then(function(response) {
-						console.log("status",response);
-						alert("Send");
-					});
-				}
-
+				let self = this;
 				this.setState({
-					disabled: true,
+					disabledSendBtn: true,
 					guids: []
 				});
 				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
 					this.state.checkedBoxArray[i].checked = false;
+				}
+
+				if (this.state.guids.length !== 0 && this.state.TemplateId!=="") {
+					return fetch("http://crmbetb.azurewebsites.net/api/SendMail/"+self.state.TemplateId,{
+						method:"POST",
+						headers: {'Accept': 'application/json','Content-Type': 'application/json'},
+						body:JSON.stringify(self.state.guids)
+
+					}).then(response=>{
+						if(response.status===200){
+							alert("Mail is sent");
+						}
+					}).catch(error=>{
+						alert("Server Error");
+					})
+
 				}
 
 			}
@@ -135,12 +152,19 @@ class Table extends Component {
 
 			}
 			update() {
-				call('http://crmbetb.azurewebsites.net/api/contacts', 'GET').then(response => {
-					this.setState({
+				let self = this;
+				return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
+						if(response.status===200) {
+							return response.json();
+						}
+					}).then(response =>{
+						self.setState({
 						data: response,
 						guids: []
 					});
-				});
+					}).catch(error=>{
+						alert("Server Error")
+					})
 			}
 			mailListName(){
 				if(this.refs.creatMList.value){
@@ -182,10 +206,28 @@ class Table extends Component {
 			}
 			getSeletValue(value){
 					this.state.TemplateId=value;
+					if(value !==""){
+                    this.setState({
+						disabledSendBtn:false
+					})
+                }else{
+					 this.setState({
+						disabledSendBtn:true
+					})
+				}
                //console.log("In State Id",this.state.TemplateId);
 			}
 			render(){
 				//console.log("this.state.guids",this.state.guids);
+				if(this.state.loading){
+					return(
+						<div className="UserTable">
+						    <div className="loading">
+								<div className="loadingtext">Loading ...</div>
+							</div>
+			        	</div> 
+					);
+				}
 				if(this.state.uploadFile){
 					return(
 						<div className="UserTable">
@@ -226,8 +268,8 @@ class Table extends Component {
 				 	<button key ="addBtn" id="addBtn"  onClick={this.addContact}>Add Contact</button>
 					 <div id="templateSelectBox">
 						 <span>Template :</span>
-					 <TemplateSelect getValue={this.getSeletValue} />
-				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabled} onClick={this.sendMail}>Send Mail</button>
+					 <TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
+				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabledSendBtn} onClick={this.sendMail}>Send Mail</button>
 					 </div>
 					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
 					  <div id="maillist">

@@ -11,7 +11,8 @@ class MailingLists extends Component {
 			mailListContacts: [],
 			mailListHeader: "",
 			checkedBoxArray: [],
-			selectedMailListId: []
+			selectedMailListId: [],
+			loading:true
 		}
 		this.seeContacts = this.seeContacts.bind(this);
 		this.checkBoxOnChange = this.checkBoxOnChange.bind(this);
@@ -21,12 +22,18 @@ class MailingLists extends Component {
 
 	componentDidMount() {
 		let self = this;
-		call('http://crmbetb.azurewebsites.net/api/MailingLists', 'GET').then(function(list) {
-			// console.log("maillists",list);
-			self.setState({
-				maillists: list
-			});
-		})
+				return fetch('http://crmbetb.azurewebsites.net/api/MailingLists').then(function(response) {
+						if(response.status===200) {
+							return response.json();
+						}
+					}).then(response =>{
+						self.setState({
+							maillists:response,
+							loading:false
+						})
+					}).catch(error=>{
+						alert("Server Error")
+					})
 	}
 	delete() {
 
@@ -38,8 +45,25 @@ class MailingLists extends Component {
 				selectedMailListId: []
 			});
 		})
-		for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
+
+			for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
 			this.state.checkedBoxArray[i].checked = false;
+
+		// return fetch('http://crmbetb.azurewebsites.net/api/MailingLists',{method:"DELETE",
+		//                                                                   body:JSON.stringify(self.state.selectedMailListId)})
+		// 																  .then(response=>{
+		// 																	  if(response.status===415){
+		// 																		    	self.update();
+		// 																				alert("Delete Mail Lists")
+		// 																			 	self.setState({
+		// 																			 	selectedMailListId: []
+		// 																				 })
+																						
+		// 																		  return response;
+		// 																	  }
+		// 																	console.log(response);
+		// 																  })
+		
 		}
 	}
 	update() {
@@ -81,6 +105,15 @@ class MailingLists extends Component {
   
 
     render() {
+		if(this.state.loading){
+					return(
+						<div className="UserTable">
+						    <div className="loading">
+								<div className="loadingtext">Loading ...</div>
+							</div>
+			        	</div> 
+					);
+				}
         const headers = <thead>
                            <tr>
                                 <th>Choose</th>

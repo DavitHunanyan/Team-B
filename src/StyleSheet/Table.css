@@ -1,3 +1,14 @@
+.loading{
+	width: 100%;
+	height: 100%;
+}
+.loadingtext{
+	width: 110px;
+	height: 30px;
+	margin: 250px auto;
+	font-family: Arilal;
+	font-size: 25px;
+}
 .UserTable {
     width: 100%;
     height: 100%;
