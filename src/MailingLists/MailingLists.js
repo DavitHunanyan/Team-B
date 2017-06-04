@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../StyleSheet/MailingLists.css';
-import call from '../Fetch.js';
 import MailListContacts from './MailListContacts.js';
+import TemplateSelect from '../TableComponent/TemplateSelect.js';
 
 class MailingLists extends Component {
 	constructor(props) {
@@ -12,67 +12,79 @@ class MailingLists extends Component {
 			mailListHeader: "",
 			checkedBoxArray: [],
 			selectedMailListId: [],
-			loading:true
+			loading: true,
+			deleteBtnDisable: true,
+			disSendBtn: true,
+			TemplateId: ""
 		}
 		this.seeContacts = this.seeContacts.bind(this);
 		this.checkBoxOnChange = this.checkBoxOnChange.bind(this);
 		this.delete = this.delete.bind(this);
 		this.update = this.update.bind(this);
+		this.getSeletValue = this.getSeletValue.bind(this);
+		this.sendMail = this.sendMail.bind(this);
 	}
 
 	componentDidMount() {
 		let self = this;
-				return fetch('http://crmbetb.azurewebsites.net/api/MailingLists').then(function(response) {
-						if(response.status===200) {
-							return response.json();
-						}
-					}).then(response =>{
-						self.setState({
-							maillists:response,
-							loading:false
-						})
-					}).catch(error=>{
-						alert("Server Error")
-					})
+		return fetch('http://crmbetb.azurewebsites.net/api/MailingLists').then(function(response) {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then(response => {
+			self.setState({
+				maillists: response,
+				loading: false
+			})
+		}).catch(error => {
+			alert("Server Error")
+		})
 	}
 	delete() {
 
 		let self = this;
-		call('http://crmbetb.azurewebsites.net/api/MailingLists', 'DELETE', this.state.selectedMailListId).then(function() {
-			self.update();
-			alert("Delete Mail Lists")
-			self.setState({
-				selectedMailListId: []
-			});
-		})
+		self.setState({
+			deleteBtnDisable: true
+		});
+		return fetch("http://crmbetb.azurewebsites.net/api/MailingLists", {
+			method: "DELETE",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(self.state.selectedMailListId)
 
-			for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
-			this.state.checkedBoxArray[i].checked = false;
+		}).then(response => {
+			console.log("delete", response);
+			if (response.status === 200) {
+				self.update();
+				alert("Delete");
+				self.setState({
+					selectedMailListId: []
+				});
+				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
+					this.state.checkedBoxArray[i].checked = false;
+				}
+			}
+		}).catch(error => {
+			console.log(error);
+			alert("Server Error");
+		});
 
-		// return fetch('http://crmbetb.azurewebsites.net/api/MailingLists',{method:"DELETE",
-		//                                                                   body:JSON.stringify(self.state.selectedMailListId)})
-		// 																  .then(response=>{
-		// 																	  if(response.status===415){
-		// 																		    	self.update();
-		// 																				alert("Delete Mail Lists")
-		// 																			 	self.setState({
-		// 																			 	selectedMailListId: []
-		// 																				 })
-																						
-		// 																		  return response;
-		// 																	  }
-		// 																	console.log(response);
-		// 																  })
-		
-		}
 	}
 	update() {
 		let self = this;
-		call('http://crmbetb.azurewebsites.net/api/MailingLists', 'GET').then(function(list) {
-			console.log("maillists", list);
+		return fetch('http://crmbetb.azurewebsites.net/api/MailingLists').then(function(response) {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then(response => {
 			self.setState({
-				maillists: list
-			});
+				maillists: response,
+				loading: false
+			})
+		}).catch(error => {
+			alert("Server Error")
 		})
 	}
 	seeContacts(event) {
@@ -101,9 +113,59 @@ class MailingLists extends Component {
 			}
 		}
 		//console.log("MailListId Array",this.state.selectedMailListId);
+		if (this.state.selectedMailListId.length > 0) {
+			this.setState({
+				deleteBtnDisable: false
+			});
+		} else {
+			this.setState({
+				deleteBtnDisable: true
+			});
+		}
 	}
-  
+	getSeletValue(value) {
+		this.state.TemplateId = value;
+		if (value !== "" && this.state.selectedMailListId.length > 0) {
+			this.setState({
+				disSendBtn: false
+			})
+		} else {
+			this.setState({
+				disSendBtn: true
+			})
+		}
+		//console.log("In State Id",this.state.TemplateId);
+	}
+	sendMail() {
+		let self = this;
+		this.setState({
+			disSendBtn: true,
+			selectedMailListId: []
+		});
+		for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
+			this.state.checkedBoxArray[i].checked = false;
+		}
 
+		if (this.state.selectedMailListId.length !== 0 && this.state.TemplateId !== "") {
+			return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + this.state.selectedMailListId + "/" + self.state.TemplateId, {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+
+			}).then(response => {
+				console.log(response);
+				if (response.status === 200) {
+					alert("Mail is sent");
+				}
+			}).catch(error => {
+				alert("Server Error");
+			})
+
+		}
+
+	}
     render() {
 		if(this.state.loading){
 					return(
@@ -134,21 +196,27 @@ class MailingLists extends Component {
 					  <td key={data.Contacts.length}>
 				     	{data.Contacts.length}
                      </td>
-			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}>See Contacts</button></td>
+			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >Contacts</button></td>
 		     	</tr>
 		     	);
 		     	return(
                      <div>
                         <div className ="Block">
+							<h3>Mail List</h3>
                             <table>
                                 {headers}
                                 <tbody>
                                     {row}
                                 </tbody>
                             </table>
-                             <button  id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
+                             <button  id="deleteBtn" disabled={this.state.deleteBtnDisable} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
+							  <div id="templateSelect">
+									<span>Template :</span>
+								<TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
+								<button key="sendBtn" id="sendBtn" disabled={this.state.disSendBtn} onClick={this.sendMail}>Send Mail</button>
+							 </div>
                         </div>
-                        <div className="Block">
+                        <div className="Block" >
                           <MailListContacts data={this.state.mailListContacts} header={this.state.mailListHeader} />
                         </div>
                      </div>

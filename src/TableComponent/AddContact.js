@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import call from '../Fetch.js';
 class AddContact extends Component{
 		 constructor(props) {
 	    super(props);
@@ -7,7 +6,6 @@ class AddContact extends Component{
 		this.saveContact = this.saveContact.bind(this);
 	  }
 	  	saveContact(){
-			  //let guid='';
 			  if(this.refs.fullName.value && this.refs.companyName.value &&
 			   	this.refs.position.value && this.refs.country.value && this.refs.email.value){
 				let newContact={
@@ -19,12 +17,24 @@ class AddContact extends Component{
 				}
 			this.props.update();
 			let self =this;
-			call('http://crmbetb.azurewebsites.net/api/Contacts','POST',newContact).then(function(data){
-				self.props.update();
-			    
-			});
-			 	//alert("save");
 				 this.props.back();
+				 	return fetch("http://crmbetb.azurewebsites.net/api/Contacts", {
+							method: "POST",
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify(newContact)
+
+						}).then(response => {
+							//console.log("add",response);
+							if (response.status === 201) {
+								self.props.update();
+							}
+						}).catch(error => {
+							console.log(error);
+							alert("Server Error");
+						})
 			   }else{
 				alert("no valid contact");
 			}

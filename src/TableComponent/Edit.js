@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import call from '../Fetch.js';
 class Edit extends Component {
 	constructor(props) {
 		super(props);
@@ -15,13 +14,24 @@ class Edit extends Component {
 
 		}
 		let self = this;
-		//console.log("save edited data",editObj);
-		//alert("Save edited contact");
-		call('http://crmbetb.azurewebsites.net/api/Contacts?Guid=' + this.props.data.Guid, "PUT", editObj).then(function(data) {
-			self.props.update();
-
-		});
 		this.props.save();
+			return fetch("http://crmbetb.azurewebsites.net/api/Contacts?Guid="+self.props.data.Guid, {
+			method: "PUT",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(editObj)
+
+		}).then(response => {
+			//console.log("edit",response);
+			if (response.status === 204) {
+				self.props.update();
+			}
+		}).catch(error => {
+			console.log(error);
+			alert("Server Error");
+		})
 	}
 			
 			render(){ 

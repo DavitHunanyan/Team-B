@@ -9,15 +9,7 @@ class MailListContacts extends Component {
 	}
 
 	render(){
-         const data=this.props.data
-         const header = <thead>
-                            <tr>
-                                <th>
-                                    {this.props.header}
-                                </th>
-                            </tr>
-                        </thead>
-      //   console.log("contacts",data)
+         const data=this.props.data;
 		      const row = data.map((data,index)=>
 		     	<tr key={index} ref={index}>
 					 {/*<td key={index} id="checkbox">
@@ -42,8 +34,9 @@ class MailListContacts extends Component {
 		     	);
 		     	return(
                         <div className ="inlineBlock">
+							<h3>{this.props.header}</h3>
                             <table>
-                                {header}
+                                
                                 <tbody>
                                     {row}
                                 </tbody>

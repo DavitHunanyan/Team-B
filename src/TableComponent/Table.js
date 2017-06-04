@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import TableHeader from'./TableHeader.js';
 import TableRow from './TableRow.js';
 import '../StyleSheet/Table.css';
-import call from '../Fetch.js';
 import Edit from './Edit.js';
 import AddContact from './AddContact.js';
 import UploadFile from './UploadFile.js';
@@ -20,10 +19,10 @@ class Table extends Component {
 			disabledSendBtn: true,
 			addContact: false,
 			checkedBoxArray: [],
-			creatListBtndisabled:true,
-			uploadFile:false,
-			TemplateId:"",
-			loading:true
+			creatListBtndisabled: true,
+			uploadFile: false,
+			TemplateId: "",
+			loading: true
 		};
 		this.sendMail = this.sendMail.bind(this);
 		this.getGuid = this.getGuid.bind(this);
@@ -38,186 +37,213 @@ class Table extends Component {
 		this.checkBoxChanges = this.checkBoxChanges.bind(this);
 		this.createMailList = this.createMailList.bind(this);
 		this.mailListName = this.mailListName.bind(this);
-		this.uploadFile=this.uploadFile.bind(this);
+		this.uploadFile = this.uploadFile.bind(this);
 		this.backfromUploadFile = this.backfromUploadFile.bind(this);
 		this.getSeletValue = this.getSeletValue.bind(this);
 	}
-			checkBoxChanges(target) {
-				this.state.checkedBoxArray.push(target);
-			}
-			isDisable(disabled) {
-				this.setState({
-					disabled: disabled
-				});
-			}
+	checkBoxChanges(target) {
+		this.state.checkedBoxArray.push(target);
+	}
+	isDisable(disabled) {
+		this.setState({
+			disabled: disabled
+		});
+	}
 
-			getGuid(guidArray) {
-				this.setState({
-					guids: guidArray
-				});
+	getGuid(guidArray) {
+		this.setState({
+			guids: guidArray
+		});
+	}
+	componentDidMount() {
+		let self = this;
+		return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
+			if (response.status === 200) {
+				return response.json();
 			}
-			componentDidMount() {
-				let self = this;
-				return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
-						if(response.status===200) {
-							return response.json();
-						}
-					}).then(response =>{
-						self.setState({
-							data:response,
-							loading:false
-						})
-					}).catch(error=>{
-						alert("Server Error")
-					})
-			}
-			sendMail() {
-				let self = this;
-				this.setState({
-					disabledSendBtn: true,
-					guids: []
-				});
-				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
-					this.state.checkedBoxArray[i].checked = false;
+		}).then(response => {
+			self.setState({
+				data: response,
+				loading: false
+			})
+		}).catch(error => {
+			alert("Server Error")
+		})
+	}
+	sendMail() {
+		let self = this;
+		this.setState({
+			disabledSendBtn: true,
+			guids: []
+		});
+		for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
+			this.state.checkedBoxArray[i].checked = false;
+		}
+
+		if (this.state.guids.length !== 0 && this.state.TemplateId !== "") {
+			return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + self.state.TemplateId, {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(self.state.guids)
+
+			}).then(response => {
+				if (response.status === 200) {
+					alert("Mail is sent");
 				}
+			}).catch(error => {
+				alert("Server Error");
+			})
 
-				if (this.state.guids.length !== 0 && this.state.TemplateId!=="") {
-					return fetch("http://crmbetb.azurewebsites.net/api/SendMail/"+self.state.TemplateId,{
-						method:"POST",
-						headers: {'Accept': 'application/json','Content-Type': 'application/json'},
-						body:JSON.stringify(self.state.guids)
+		}
 
-					}).then(response=>{
-						if(response.status===200){
-							alert("Mail is sent");
-						}
-					}).catch(error=>{
-						alert("Server Error");
-					})
+	}
+	onClickEditBtn(event) {
+		this.setState({
+			editObj: this.state.data[event.target.id]
+		});
+		this.setState({
+			edit: true
+		});
+	}
+	cancel() {
+		this.setState({
+			edit: false
+		});
+	}
+	saveFromEdit() {
+		this.setState({
+			edit: false
+		});
+	}
+	addContact() {
+		this.setState({
+			addContact: true
+		});
+	}
+	uploadFile() {
+		this.setState({
+			uploadFile: true
+		});
+	}
+	backfromUploadFile() {
+		this.setState({
+			uploadFile: false
+		});
+	}
+	back() {
+		this.setState({
+			addContact: false
+		});
+	}
 
-				}
+	delete() {
+		let self = this;
+		for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
+			this.state.checkedBoxArray[i].checked = false;
+		}
+		self.setState({
+			disabled: true
+		});
+		return fetch("http://crmbetb.azurewebsites.net/api/Contacts", {
+			method: "DELETE",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(self.state.guids)
 
+		}).then(response => {
+			//console.log("delete",response);
+			if (response.status === 200) {
+				alert("delete");
+				self.update();
 			}
-			onClickEditBtn(event) {
-				this.setState({
-					editObj: this.state.data[event.target.id]
-				});
-				this.setState({
-					edit: true
-				});
-			}
-			cancel() {
-				this.setState({
-					edit: false
-				});
-			}
-			saveFromEdit() {
-				this.setState({
-					edit: false
-				});
-			}
-			addContact() {
-				this.setState({
-					addContact: true
-				});
-			}
-			uploadFile() {
-				this.setState({
-					uploadFile: true
-				});
-			}
-			backfromUploadFile(){
-				this.setState({
-					uploadFile: false
-				});
-			}
-			back() {
-				this.setState({
-					addContact: false
-				});
-			}
+		}).catch(error => {
+			console.log(error);
+			alert("Server Error");
+		})
 
-			delete() {
-				let self = this;
-				call('http://crmbetb.azurewebsites.net/api/Contacts', 'DELETE', this.state.guids).then(function(data) {
-					self.update();
-					//alert("detele");
-					self.setState({
-						disabled: true
-					});
-				});
-				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
-					this.state.checkedBoxArray[i].checked = false;
-				}
+	}
+	update() {
+		let self = this;
+		return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then(response => {
+			self.setState({
+				data: response,
+				guids: []
+			});
+		}).catch(error => {
+			alert("Server Error")
+		})
+	}
+	mailListName() {
+		if (this.refs.creatMList.value) {
+			this.setState({
+				creatListBtndisabled: false
 
-			}
-			update() {
-				let self = this;
-				return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
-						if(response.status===200) {
-							return response.json();
-						}
-					}).then(response =>{
-						self.setState({
-						data: response,
-						guids: []
-					});
-					}).catch(error=>{
-						alert("Server Error")
-					})
-			}
-			mailListName(){
-				if(this.refs.creatMList.value){
-					this.setState({
-					creatListBtndisabled:false	
-				
+			})
+		} else {
+			this.setState({
+				creatListBtndisabled: true
+
+			})
+		}
+	}
+	createMailList() {
+		let self = this;
+		if (this.refs.creatMList.value) {
+			if (this.state.guids.length > 0) {
+				this.setState({
+					creatListBtndisabled: true,
+					disabled: true,
 				})
-				}else{
-					this.setState({
-					creatListBtndisabled:true	
-				
-				})
-				}
-			}
-			createMailList(){
-				let self = this;
-				if(this.refs.creatMList.value){
-						if(this.state.guids.length > 0){
-								call('http://crmbetb.azurewebsites.net/api/MailingLists/new?name='+this.refs.creatMList.value, 'POST', this.state.guids).then(function(){
-									self.setState({
-												creatListBtndisabled: true,
-												disabled: true,
-												guids: []
-											});
-									self.refs.creatMList.value="";
+				return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/new?name=" + self.refs.creatMList.value, {
+					method: "POST",
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(self.state.guids)
 
-								for (let i = 0; i < self.state.checkedBoxArray.length; ++i) {
-									self.state.checkedBoxArray[i].checked = false;
-									}
-								})
-								console.log("creat New Mail List");
-								
-						}else{
-							alert("Did not Choose Contact");
+				}).then(response => {
+					//console.log("createMaillist",response);
+					if (response.status === 201) {
+						alert("MailList is Created");
+						for (let i = 0; i < self.state.checkedBoxArray.length; ++i) {
+							self.state.checkedBoxArray[i].checked = false;
 						}
-				}else{
-					alert("Mail List Name No valid");
-				}
+						self.setState({
+							guids: []
+						});
+						self.refs.creatMList.value = "";
+					}
+				}).catch(error => {
+					alert("Server Error");
+				})
+
 			}
-			getSeletValue(value){
-					this.state.TemplateId=value;
-					if(value !==""){
-                    this.setState({
-						disabledSendBtn:false
-					})
-                }else{
-					 this.setState({
-						disabledSendBtn:true
-					})
-				}
-               //console.log("In State Id",this.state.TemplateId);
-			}
-			render(){
+		}
+	}
+	getSeletValue(value) {
+		this.state.TemplateId = value;
+		if (value !== "") {
+			this.setState({
+				disabledSendBtn: false
+			})
+		} else {
+			this.setState({
+				disabledSendBtn: true
+			})
+		}
+		//console.log("In State Id",this.state.TemplateId);
+	}
+	render(){
 				//console.log("this.state.guids",this.state.guids);
 				if(this.state.loading){
 					return(
