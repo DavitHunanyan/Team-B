@@ -4,11 +4,9 @@ class UploadFile extends Component {
 	render(){
         return(
             <div>
-                <form name="form1" method="POST" enctype="multipart/form-data" action="http://crmbetb.azurewebsites.net/api/Contacts/upload">
-                
-                    <input type="file"/>
-                    <input type="submit" value="Upload File" id="sendBtn" />
-                
+                <form className="uploadCSV" action="http://crmbetb.azurewebsites.net/api/contacts/upload" encType="multipart/form-data" method="POST" >
+                    <input name="data"type="file"></input>
+                    <input type="submit" id="sendBtn"></input>
                 </form>
                 <button className="deleteBtn" onClick={this.props.back}>Back</button>
             </div>
