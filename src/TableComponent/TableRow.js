@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../Fetch.js';
+import pencil from "./pencil.png";
 
 class TableRow extends Component {
 	constructor(props) {
@@ -57,7 +58,7 @@ class TableRow extends Component {
 			     	    {data.Email}
 			     	</td>
 					 
-			     	<td id="pencil"><i className="glyphicon glyphicon-pencil" id ={index} onClick={this.props.editBtn} ></i></td>
+			     	<td id="pencil"><img id ={index} onClick={this.props.editBtn} src={pencil} width="20px" height="20px"/></td>
 		     	</tr>
 		     	);
 		     	return(

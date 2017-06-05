@@ -21,10 +21,10 @@ class AdminDashboard extends Component{
             
             <main role="main"  >
        <Switch>
-				      <Route path='/table' component={Table}/>
-							<Route path='/addmailinglist' component={MailingLists}/>
+				      <Route path='/board' component={Table}/>
+							<Route path='/mailinglist' component={MailingLists}/>
               <Route path='/sendemails' component={SendEmails}/>
-              <Redirect to="/table"/>
+              <Redirect to="/board"/>
 				</Switch>
         </main>
       </div>

@@ -324,8 +324,8 @@ class Table extends Component {
 					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()} 
 					  </div>
 					  <div id="maillist">
-					  <input type="text" ref="creatMList" placeholder="Mail List Name" onChange={this.mailListName}/>
-					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Creat Mail List</button>
+					  <input type="text" ref="creatMList" placeholder="Mailing List Name" onChange={this.mailListName}/>
+					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Create Mailing List</button>
 					  </div>
 					  <button  className="deleteBtn" id="Upload_btn" onClick={this.uploadFile}>Upload File</button>
 					  </div>
