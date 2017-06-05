@@ -272,7 +272,37 @@ width: 100%;
 	 background-color: #735a73; 
 }
 
+.btnDiv{
+	width: 10%;
+	display: inline-block;
+	text-align: center;
+}
 
+.deleteBox{
+	position: fixed;
+	left: 0; 
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: rgba(224,224,224,0.3);
+}
+.deletePopUp{
+	background: white;
+	width: 120px;
+	margin: 0 auto;
+	line-height: 2;
+	margin-top:250px; 
+	border: solid 2px #167ec9;
+	padding: 5px;
+	height: 120px;
+	border-radius: 10px;
+}
+
+@media (max-width:618px) {
+	.btnDiv{
+		width: 45%;
+	}
+}
 
 	
 	@media (max-width:866px) {
@@ -300,7 +330,7 @@ width: 100%;
    
 }
 
-@media(max-width:334px){
+@media(max-width:347px){
 	#templateSelectBox{
 	
 	height: 110px;

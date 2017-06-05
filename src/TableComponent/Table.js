@@ -21,6 +21,7 @@ class Table extends Component {
 			checkedBoxArray: [],
 			creatListBtndisabled: true,
 			uploadFile: false,
+			delete: false,
 			TemplateId: "",
 			loading: true
 		};
@@ -40,6 +41,8 @@ class Table extends Component {
 		this.uploadFile = this.uploadFile.bind(this);
 		this.backfromUploadFile = this.backfromUploadFile.bind(this);
 		this.getSeletValue = this.getSeletValue.bind(this);
+		this.deletePopUp = this.deletePopUp.bind(this);
+		this.changeDeleteState = this.changeDeleteState.bind(this);
 	}
 	checkBoxChanges(target) {
 		this.state.checkedBoxArray.push(target);
@@ -147,6 +150,7 @@ class Table extends Component {
 		self.setState({
 			disabled: true
 		});
+		this.changeDeleteState();
 		return fetch("http://crmbetb.azurewebsites.net/api/Contacts", {
 			method: "DELETE",
 			headers: {
@@ -230,6 +234,25 @@ class Table extends Component {
 			}
 		}
 	}
+
+	deletePopUp(){
+		if(this.state.delete){
+			return(
+				<div className="deleteBox">
+					<div className="deletePopUp">
+						<p>Are you sure?</p>
+						<button className="See_Contacts" onClick={this.delete}>Yes</button>
+						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
+					</div>
+				</div>
+			)
+		}
+	}
+
+	changeDeleteState(){
+		this.setState({delete:!this.state.delete});
+	}
+
 	getSeletValue(value) {
 		this.state.TemplateId = value;
 		if (value !== "") {
@@ -297,7 +320,9 @@ class Table extends Component {
 					 <TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
 				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabledSendBtn} onClick={this.sendMail}>Send Mail</button>
 					 </div>
-					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
+					 <div className="btnDiv">
+					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()} 
+					  </div>
 					  <div id="maillist">
 					  <input type="text" ref="creatMList" placeholder="Mail List Name" onChange={this.mailListName}/>
 					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Creat Mail List</button>
