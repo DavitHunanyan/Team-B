@@ -6,17 +6,17 @@ import TemplateSelect from '../TableComponent/TemplateSelect.js';
 class MailingLists extends Component {
 	constructor(props) {
 		super(props);
+		this.checkedBoxArray = [];
+		this.TemplateId ="";
 		this.state = {
 			maillists: [],
 			mailListContacts: [],
 			mailListHeader: "",
-			checkedBoxArray: [],
 			selectedMailListId: [],
 			loading: true,
 			deleteBtnDisable: true,
 			disSendBtn: true,
 			delete: false,
-			TemplateId: "",
 			MailingListId: "",
 			SelectMailListIndex: ""
 		}
@@ -70,8 +70,8 @@ class MailingLists extends Component {
 					mailListHeader: ""
 				});
 				self.update();
-				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
-					this.state.checkedBoxArray[i].checked = false;
+				for (let i = 0; i < this.checkedBoxArray.length; ++i) {
+					this.checkedBoxArray[i].checked = false;
 				}
 			}
 		}).catch(error => {
@@ -133,7 +133,7 @@ class MailingLists extends Component {
 		})
 	}
 	checkBoxOnChange(event) {
-		this.state.checkedBoxArray.push(event.target);
+		this.checkedBoxArray.push(event.target);
 		let index = event.target.id;
 		if (event.target.checked === true) {
 			this.state.selectedMailListId.push(this.state.maillists[index].MailingListId);
@@ -159,7 +159,7 @@ class MailingLists extends Component {
 		}
 	}
 	getSeletValue(value) {
-		this.state.TemplateId = value;
+		this.TemplateId = value;
 		if (value !== "" && this.state.selectedMailListId.length > 0) {
 			this.setState({
 				disSendBtn: false
@@ -195,12 +195,12 @@ class MailingLists extends Component {
 			disSendBtn: true,
 			selectedMailListId: []
 		});
-		for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
-			this.state.checkedBoxArray[i].checked = false;
+		for (let i = 0; i < this.checkedBoxArray.length; ++i) {
+			this.checkedBoxArray[i].checked = false;
 		}
 
-		if (this.state.selectedMailListId.length !== 0 && this.state.TemplateId !== "") {
-			return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + this.state.selectedMailListId + "/" + self.state.TemplateId, {
+		if (this.state.selectedMailListId.length !== 0 && this.TemplateId !== "") {
+			return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + this.state.selectedMailListId + "/" + self.TemplateId, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',

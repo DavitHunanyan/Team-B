@@ -10,6 +10,8 @@ import TemplateSelect from './TemplateSelect.js';
 class Table extends Component {
 	constructor(props) {
 		super(props);
+		this.checkedBoxArray=[];
+		this.TemplateId="";
 		this.state = {
 			data: [],
 			guids: [],
@@ -18,11 +20,9 @@ class Table extends Component {
 			disabled: true,
 			disabledSendBtn: true,
 			addContact: false,
-			checkedBoxArray: [],
 			creatListBtndisabled: true,
 			uploadFile: false,
 			delete: false,
-			TemplateId: "",
 			loading: true
 		};
 		this.sendMail = this.sendMail.bind(this);
@@ -45,7 +45,7 @@ class Table extends Component {
 		this.changeDeleteState = this.changeDeleteState.bind(this);
 	}
 	checkBoxChanges(target) {
-		this.state.checkedBoxArray.push(target);
+		this.checkedBoxArray.push(target);
 	}
 	isDisable(disabled) {
 		this.setState({
@@ -79,12 +79,12 @@ class Table extends Component {
 			disabledSendBtn: true,
 			guids: []
 		});
-		for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
-			this.state.checkedBoxArray[i].checked = false;
+		for (let i = 0; i < this.checkedBoxArray.length; ++i) {
+			this.checkedBoxArray[i].checked = false;
 		}
 
 		if (this.state.guids.length !== 0 && this.state.TemplateId !== "") {
-			return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + self.state.TemplateId, {
+			return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + self.TemplateId, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -144,8 +144,8 @@ class Table extends Component {
 
 	delete() {
 		let self = this;
-		for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
-			this.state.checkedBoxArray[i].checked = false;
+		for (let i = 0; i < this.checkedBoxArray.length; ++i) {
+			this.checkedBoxArray[i].checked = false;
 		}
 		self.setState({
 			disabled: true
@@ -219,8 +219,8 @@ class Table extends Component {
 					//console.log("createMaillist",response);
 					if (response.status === 201) {
 						alert("MailList is Created");
-						for (let i = 0; i < self.state.checkedBoxArray.length; ++i) {
-							self.state.checkedBoxArray[i].checked = false;
+						for (let i = 0; i < self.checkedBoxArray.length; ++i) {
+							self.checkedBoxArray[i].checked = false;
 						}
 						self.setState({
 							guids: []
@@ -254,7 +254,7 @@ class Table extends Component {
 	}
 
 	getSeletValue(value) {
-		this.state.TemplateId = value;
+		this.TemplateId = value;
 		if (value !== "") {
 			this.setState({
 				disabledSendBtn: false
