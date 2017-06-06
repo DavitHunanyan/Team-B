@@ -30,7 +30,7 @@ class Edit extends Component {
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Server Error");
+			alert("Something went wrong");
 		})
 	}
 			

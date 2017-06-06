@@ -16,16 +16,19 @@ class MailingLists extends Component {
 			deleteBtnDisable: true,
 			disSendBtn: true,
 			delete: false,
-			TemplateId: ""
+			TemplateId: "",
+			MailingListId: "",
+			SelectMailListIndex: ""
 		}
 		this.seeContacts = this.seeContacts.bind(this);
-		this.checkBoxOnChange = this.checkBoxOnChange.bind(this);	
+		this.checkBoxOnChange = this.checkBoxOnChange.bind(this);
 		this.delete = this.delete.bind(this);
 		this.update = this.update.bind(this);
 		this.getSeletValue = this.getSeletValue.bind(this);
 		this.sendMail = this.sendMail.bind(this);
 		this.deletePopUp = this.deletePopUp.bind(this);
 		this.changeDeleteState = this.changeDeleteState.bind(this);
+		this.updateFromContactslist = this.updateFromContactslist.bind(this);
 	}
 
 	componentDidMount() {
@@ -59,12 +62,12 @@ class MailingLists extends Component {
 			body: JSON.stringify(self.state.selectedMailListId)
 
 		}).then(response => {
-			console.log("delete", response);
 			if (response.status === 200) {
-				
 				alert("Delete");
 				self.setState({
-					selectedMailListId: []
+					selectedMailListId: [],
+					mailListContacts: [],
+					mailListHeader: ""
 				});
 				self.update();
 				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
@@ -78,7 +81,6 @@ class MailingLists extends Component {
 
 	}
 	update() {
-		console.log("UPADATE");
 		let self = this;
 		return fetch('http://crmbetb.azurewebsites.net/api/MailingLists').then(function(response) {
 			if (response.status === 200) {
@@ -94,15 +96,43 @@ class MailingLists extends Component {
 		})
 	}
 	seeContacts(event) {
-		//console.log(event.target.id);
+		let self = this;
 		let datalist = this.state.maillists[event.target.id].Contacts;
 		this.setState({
+			SelectMailListIndex: event.target.id,
 			mailListContacts: datalist,
-			mailListHeader: this.state.maillists[event.target.id].MailingListName
+			mailListHeader: this.state.maillists[event.target.id].MailingListName,
+			MailingListId: this.state.maillists[event.target.id].MailingListId
+		})
+		return fetch('http://crmbetb.azurewebsites.net/api/MailingLists/' + this.state.maillists[event.target.id].MailingListId).then(function(response) {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then(response => {
+			self.setState({
+				mailListContacts: response.Contacts,
+				header: response.MailingListName,
+			})
+		}).catch(error => {
+			alert("Something went wrong")
+		})
+	}
+	updateFromContactslist() {
+		let self = this;
+		return fetch('http://crmbetb.azurewebsites.net/api/MailingLists/' + this.state.maillists[self.state.SelectMailListIndex].MailingListId).then(function(response) {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then(response => {
+			self.setState({
+				mailListContacts: response.Contacts,
+				header: response.MailingListName,
+			})
+		}).catch(error => {
+			alert("Something went wrong")
 		})
 	}
 	checkBoxOnChange(event) {
-		// console.log(event.target.id);
 		this.state.checkedBoxArray.push(event.target);
 		let index = event.target.id;
 		if (event.target.checked === true) {
@@ -118,7 +148,6 @@ class MailingLists extends Component {
 
 			}
 		}
-		//console.log("MailListId Array",this.state.selectedMailListId);
 		if (this.state.selectedMailListId.length > 0) {
 			this.setState({
 				deleteBtnDisable: false
@@ -140,7 +169,6 @@ class MailingLists extends Component {
 				disSendBtn: true
 			})
 		}
-		//console.log("In State Id",this.state.TemplateId);
 	}
 
 	deletePopUp(){
@@ -180,12 +208,11 @@ class MailingLists extends Component {
 				}
 
 			}).then(response => {
-				console.log(response);
 				if (response.status === 200) {
 					alert("Mail is sent");
 				}
 			}).catch(error => {
-				alert("Server Error");
+				alert("Something went wrong");
 			})
 
 		}
@@ -245,7 +272,7 @@ class MailingLists extends Component {
 							 </div>
                         </div>
                         <div className="Block" >
-                          <MailListContacts data={this.state.mailListContacts} header={this.state.mailListHeader} />
+                          <MailListContacts update={this.update} updateContacts={this.updateFromContactslist} data={this.state.mailListContacts} header={this.state.mailListHeader} MailingListId={this.state.MailingListId} />
                         </div>
                      </div>
                      

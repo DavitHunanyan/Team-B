@@ -266,6 +266,7 @@ class Table extends Component {
 		}
 		//console.log("In State Id",this.state.TemplateId);
 	}
+	
 	render(){
 				//console.log("this.state.guids",this.state.guids);
 				if(this.state.loading){
