@@ -240,7 +240,7 @@ class Table extends Component {
 			return(
 				<div className="deleteBox">
 					<div className="deletePopUp">
-						<p>Are you sure?</p>
+						<h4>Are you sure?</h4>
 						<button className="See_Contacts" onClick={this.delete}>Yes</button>
 						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
 					</div>

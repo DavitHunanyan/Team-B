@@ -15,14 +15,17 @@ class MailingLists extends Component {
 			loading: true,
 			deleteBtnDisable: true,
 			disSendBtn: true,
+			delete: false,
 			TemplateId: ""
 		}
 		this.seeContacts = this.seeContacts.bind(this);
-		this.checkBoxOnChange = this.checkBoxOnChange.bind(this);
+		this.checkBoxOnChange = this.checkBoxOnChange.bind(this);	
 		this.delete = this.delete.bind(this);
 		this.update = this.update.bind(this);
 		this.getSeletValue = this.getSeletValue.bind(this);
 		this.sendMail = this.sendMail.bind(this);
+		this.deletePopUp = this.deletePopUp.bind(this);
+		this.changeDeleteState = this.changeDeleteState.bind(this);
 	}
 
 	componentDidMount() {
@@ -46,6 +49,7 @@ class MailingLists extends Component {
 		self.setState({
 			deleteBtnDisable: true
 		});
+		this.changeDeleteState();
 		return fetch("http://crmbetb.azurewebsites.net/api/MailingLists", {
 			method: "DELETE",
 			headers: {
@@ -136,6 +140,25 @@ class MailingLists extends Component {
 		}
 		//console.log("In State Id",this.state.TemplateId);
 	}
+
+	deletePopUp(){
+		if(this.state.delete){
+			return(
+				<div className="deleteBox">
+					<div className="deletePopUp">
+						<h4>Are you sure?</h4>
+						<button className="See_Contacts" onClick={this.delete}>Yes</button>
+						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
+					</div>
+				</div>
+			)
+		}
+	}
+
+	changeDeleteState(){
+		this.setState({delete:!this.state.delete});
+	}
+
 	sendMail() {
 		let self = this;
 		this.setState({
@@ -209,11 +232,14 @@ class MailingLists extends Component {
                                     {row}
                                 </tbody>
                             </table>
-                             <button  id="deleteBtn" disabled={this.state.deleteBtnDisable} className="deleteBtn" onClick={this.delete}>Delete Selected</button>
+							
 							  <div id="templateSelect">
 									<span>Template :</span>
 								<TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
 								<button key="sendBtn" id="sendBtn" disabled={this.state.disSendBtn} onClick={this.sendMail}>Send Mail</button>
+							 </div>
+							 <div className="btnDiv">
+                             <button id="deleteBtn" disabled={this.state.deleteBtnDisable} className="deleteBtn" onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()}
 							 </div>
                         </div>
                         <div className="Block" >
