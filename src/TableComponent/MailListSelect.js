@@ -6,8 +6,8 @@ class MailListSelect extends Component {
         this.state={
             MailList:[]
         }
-		this.selectOnChange = this.selectOnChange.bind(this); 
-        this.getInitialState = this.getInitialState.bind(this);
+		this.renderEmailList = this.renderEmailList.bind(this);
+		
 	}
     componentDidMount(){
         let self = this;
@@ -16,7 +16,7 @@ class MailListSelect extends Component {
 				return response.json();
 			}
 		}).then(response => {
-           
+           //console.log("maillist",response);
 			self.setState({
 				MailList: response,
 			})
@@ -25,32 +25,16 @@ class MailListSelect extends Component {
 		})
      }
 
-    	
-	getInitialState () {
-		return {
-			options: [
-				{ value: true, label: 'Yes' },
-				{ value: false, label: 'No' }
-			],
-			value: null
-		};
-	}
-	onChange(value) {
-		this.setState({ value });
-		console.log('Boolean Select value changed to', value);
-	}
+
+	 renderEmailList(data, index) {
+        return (<option value={data.MailingListId} key={index} >{data.MailingListName}</option>)
+    }
 	render () {
 		return (
-			<div className="section">
-				<h3 className="section-heading">{this.props.label}</h3>
-				<Select
-					onChange={this.onChange}
-					options={this.state.options}
-					simpleValue
-					value={this.state.value}
-					/>
-				<div className="hint">This example uses simple boolean values</div>
-			</div>
+			<select defaultValue="" onChange={this.props.onChange} >
+                        <option>Choose List</option>
+                        {this.state.MailList.map(this.renderEmailList)}
+             </select>
 		);
 	}
 	

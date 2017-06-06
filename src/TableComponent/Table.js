@@ -6,12 +6,14 @@ import Edit from './Edit.js';
 import AddContact from './AddContact.js';
 import UploadFile from './UploadFile.js';
 import TemplateSelect from './TemplateSelect.js';
+import MailListSelect from './MailListSelect.js';
 
 class Table extends Component {
 	constructor(props) {
 		super(props);
 		this.checkedBoxArray=[];
 		this.TemplateId="";
+		this.MailListId="";
 		this.state = {
 			data: [],
 			guids: [],
@@ -23,7 +25,8 @@ class Table extends Component {
 			creatListBtndisabled: true,
 			uploadFile: false,
 			delete: false,
-			loading: true
+			loading: true,
+			disabledAddToList:true
 		};
 		this.sendMail = this.sendMail.bind(this);
 		this.getGuid = this.getGuid.bind(this);
@@ -43,6 +46,8 @@ class Table extends Component {
 		this.getSeletValue = this.getSeletValue.bind(this);
 		this.deletePopUp = this.deletePopUp.bind(this);
 		this.changeDeleteState = this.changeDeleteState.bind(this);
+		this.onChangefromMailListSelect = this.onChangefromMailListSelect.bind(this);
+		this.addToList = this.addToList.bind(this);
 	}
 	checkBoxChanges(target) {
 		this.checkedBoxArray.push(target);
@@ -266,7 +271,36 @@ class Table extends Component {
 		}
 		//console.log("In State Id",this.state.TemplateId);
 	}
-	
+	onChangefromMailListSelect(event){
+		this.MailListId = event.target.value;
+	}
+	addToList(){
+		if(this.MailListId!=="" && this.state.guids.length>0){
+			let self = this;
+		return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/add/" + self.MailListId , {
+			method: "PUT",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(self.state.guids)
+
+		}).then(response => {
+			if (response.status === 204) {
+				for (let i = 0; i < self.checkedBoxArray.length; ++i) {
+							self.checkedBoxArray[i].checked = false;
+						}
+				alert("add to mailist")
+
+			}
+		}).catch(error => {
+			console.log(error);
+			alert("Something went wrong");
+		})
+		}else{
+			alert("no select mailing list or no choose contact");
+		}
+	}
 	render(){
 				//console.log("this.state.guids",this.state.guids);
 				if(this.state.loading){
@@ -317,7 +351,6 @@ class Table extends Component {
 				 <div className="BtnBox">
 				 	<button key ="addBtn" id="addBtn"  onClick={this.addContact}>Add Contact</button>
 					 <div id="templateSelectBox">
-						 <span>Template :</span>
 					 <TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
 				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabledSendBtn} onClick={this.sendMail}>Send Mail</button>
 					 </div>
@@ -325,10 +358,14 @@ class Table extends Component {
 					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()} 
 					  </div>
 					  <div id="maillist">
-					  <input type="text" ref="creatMList" placeholder="Mailing List Name" onChange={this.mailListName}/>
-					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Create Mailing List</button>
+					  <input type="text" ref="creatMList" placeholder="List Name" onChange={this.mailListName} id="listname"/>
+					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Create List</button>
 					  </div>
 					  <button  className="deleteBtn" id="Upload_btn" onClick={this.uploadFile}>Upload File</button>
+					  <div id="maillist">
+					  <MailListSelect onChange={this.onChangefromMailListSelect} />
+					  <button key="MailListadd" id="createMailListBtn" onClick={this.addToList} >Add to List</button>
+					  </div>
 					  </div>
 				 </div> 
 

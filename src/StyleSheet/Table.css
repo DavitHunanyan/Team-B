@@ -104,6 +104,9 @@
 #Upload_btn{
 	background-color: goldenrod;
 }
+#listname{
+	width: 80px;
+}
 
 #formUploadFile{
 	display: inline-block;
