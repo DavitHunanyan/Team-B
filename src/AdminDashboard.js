@@ -4,10 +4,6 @@ import Table from './TableComponent/Table.js'
 import Header from "./Header.js"
 import Menu from "./Menu.js";
 import MailingLists from'./MailingLists/MailingLists';
-import SendEmails from './SendEmails.js';
-
-
-
 import { Switch } from 'react-router-dom';
 import { Route, Redirect} from 'react-router';
 
@@ -23,7 +19,6 @@ class AdminDashboard extends Component{
        <Switch>
 				      <Route path='/board' component={Table}/>
 							<Route path='/mailinglist' component={MailingLists}/>
-              <Route path='/sendemails' component={SendEmails}/>
               <Redirect to="/board"/>
 				</Switch>
         </main>

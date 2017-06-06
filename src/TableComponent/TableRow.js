@@ -58,7 +58,7 @@ class TableRow extends Component {
 			     	    {data.Email}
 			     	</td>
 					 
-			     	<td id="pencil"><img id ={index} onClick={this.props.editBtn} src={pencil} width="20px" height="20px"/></td>
+			     	<td id="pencil"><img  alt="pencil"id ={index} onClick={this.props.editBtn} src={pencil} width="20px" height="20px"/></td>
 		     	</tr>
 		     	);
 		     	return(

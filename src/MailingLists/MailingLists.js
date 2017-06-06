@@ -40,7 +40,7 @@ class MailingLists extends Component {
 				loading: false
 			})
 		}).catch(error => {
-			alert("Server Error")
+			alert("Something went wrong")
 		})
 	}
 	delete() {
@@ -61,22 +61,24 @@ class MailingLists extends Component {
 		}).then(response => {
 			console.log("delete", response);
 			if (response.status === 200) {
-				self.update();
+				
 				alert("Delete");
 				self.setState({
 					selectedMailListId: []
 				});
+				self.update();
 				for (let i = 0; i < this.state.checkedBoxArray.length; ++i) {
 					this.state.checkedBoxArray[i].checked = false;
 				}
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Server Error");
+			alert("Something went wrong");
 		});
 
 	}
 	update() {
+		console.log("UPADATE");
 		let self = this;
 		return fetch('http://crmbetb.azurewebsites.net/api/MailingLists').then(function(response) {
 			if (response.status === 200) {
@@ -88,11 +90,11 @@ class MailingLists extends Component {
 				loading: false
 			})
 		}).catch(error => {
-			alert("Server Error")
+			alert("Something went wrong")
 		})
 	}
 	seeContacts(event) {
-		console.log(event.target.id);
+		//console.log(event.target.id);
 		let datalist = this.state.maillists[event.target.id].Contacts;
 		this.setState({
 			mailListContacts: datalist,
@@ -210,7 +212,7 @@ class MailingLists extends Component {
          const data=this.state.maillists
 		      const row = data.map((data,index)=>
 		     	<tr key={index} ref={index}>
-                     <td key={index} id="checkbox">
+                     <td key={"checkbox" +index} id="checkbox">
 						 <input type="checkbox" ref={index} id={index} onChange={this.checkBoxOnChange} /> 
 					 </td>
 			     	 <td key={data.MailingListName}>
@@ -225,7 +227,7 @@ class MailingLists extends Component {
 		     	return(
                      <div>
                         <div className ="Block">
-							<h3>Mail List</h3>
+							<h3>Mailing List</h3>
                             <table>
                                 {headers}
                                 <tbody>
@@ -239,7 +241,7 @@ class MailingLists extends Component {
 								<button key="sendBtn" id="sendBtn" disabled={this.state.disSendBtn} onClick={this.sendMail}>Send Mail</button>
 							 </div>
 							 <div className="btnDiv">
-                             <button id="deleteBtn" disabled={this.state.deleteBtnDisable} className="deleteBtn" onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()}
+                             <button id="deleteBtn" disabled={this.state.deleteBtnDisable} className="deleteBtn" onClick={this.changeDeleteState}>Delete </button>{this.deletePopUp()}
 							 </div>
                         </div>
                         <div className="Block" >

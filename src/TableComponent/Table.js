@@ -70,7 +70,7 @@ class Table extends Component {
 				loading: false
 			})
 		}).catch(error => {
-			alert("Server Error")
+			alert("Something went wrong")
 		})
 	}
 	sendMail() {
@@ -97,7 +97,7 @@ class Table extends Component {
 					alert("Mail is sent");
 				}
 			}).catch(error => {
-				alert("Server Error");
+				alert("Something went wrong");
 			})
 
 		}
@@ -167,7 +167,7 @@ class Table extends Component {
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Server Error");
+			alert("Something went wrong");
 		})
 
 	}
@@ -183,7 +183,7 @@ class Table extends Component {
 				guids: []
 			});
 		}).catch(error => {
-			alert("Server Error")
+			alert("Something went wrong")
 		})
 	}
 	mailListName() {
@@ -228,7 +228,7 @@ class Table extends Component {
 						self.refs.creatMList.value = "";
 					}
 				}).catch(error => {
-					alert("Server Error");
+					alert("Something went wrong");
 				})
 
 			}
@@ -281,7 +281,7 @@ class Table extends Component {
 					return(
 						<div className="UserTable">
 							<div id="scroll">
-			       			<UploadFile back={this.backfromUploadFile} />	
+			       			<UploadFile back={this.backfromUploadFile} update={this.update} />	
 			        		</div>
 						</div> 
 					);
