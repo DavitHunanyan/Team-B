@@ -272,7 +272,17 @@ class Table extends Component {
 		//console.log("In State Id",this.state.TemplateId);
 	}
 	onChangefromMailListSelect(event){
+		//console.log(event.target.value);
 		this.MailListId = event.target.value;
+	 if(this.MailListId !=="Choose List" && this.state.guids.length > 0){
+		this.setState({
+			disabledAddToList:false
+		})
+	 }else{
+		 this.setState({
+			disabledAddToList:true
+		})
+	 }
 	}
 	addToList(){
 		if(this.MailListId!=="" && this.state.guids.length>0){
@@ -364,7 +374,7 @@ class Table extends Component {
 					  <button  className="deleteBtn" id="Upload_btn" onClick={this.uploadFile}>Upload File</button>
 					  <div id="maillist">
 					  <MailListSelect onChange={this.onChangefromMailListSelect} />
-					  <button key="MailListadd" id="createMailListBtn" onClick={this.addToList} >Add to List</button>
+					  <button key="MailListadd" id="createMailListBtn" onClick={this.addToList}  disabled={this.state.disabledAddToList} >Add to List</button>
 					  </div>
 					  </div>
 				 </div> 

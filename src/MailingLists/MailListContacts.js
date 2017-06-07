@@ -5,11 +5,16 @@ class MailListContacts extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: []
+			data: [],
+			delete:false,
+			targetId:""
 		}
 		this.deleteContact = this.deleteContact.bind(this);
+		this.deletePopUp = this.deletePopUp.bind(this);
+		this.changeDeleteState = this.changeDeleteState.bind(this);
 	}
-	deleteContact(event) {
+	deleteContact() {
+		this.setState({delete:false});
 		let self = this;
 		return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/remove/" + self.props.MailingListId, {
 			method: "PUT",
@@ -17,18 +22,40 @@ class MailListContacts extends Component {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify([self.props.data[event.target.id].Guid])
+			body: JSON.stringify([self.props.data[this.state.targetId].Guid])
 
 		}).then(response => {
 			if (response.status === 200) {
 				self.props.updateContacts();
 				self.props.update();
+				
 
 			}
 		}).catch(error => {
 			console.log(error);
 			alert("Something went wrong");
 		})
+	}
+	deletePopUp(){
+		
+		if(this.state.delete){
+			return(
+				<div className="deleteBox">
+					<div className="deletePopUp">
+						<h4>Are you sure?</h4>
+						<button className="See_Contacts " onClick={this.deleteContact} >Yes</button>
+						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
+					</div>
+				</div>
+			)
+		}
+	}
+	changeDeleteState(event){
+		//console.log(event.target.id);
+		this.setState({
+			targetId:event.target.id
+		})
+		this.setState({delete:true});
 	}
 	render(){
 
@@ -51,13 +78,14 @@ class MailListContacts extends Component {
 			     	    {data.Email}
 			     	</td>
 					 <td>
-						 <img src={del} alt="" id={index} onClick={this.deleteContact} width="20px" height="20px"></img>
+						 <img id ={index} src={del} alt="" onClick={this.changeDeleteState} width="20px" height="20px"></img> 
 						 </td>
 		     	</tr>
 		     	);
 		     	return(
                         <div className ="inlineBlock">
 							<h3>{this.props.header}</h3>
+							{this.deletePopUp()}
                             <table>
                                 
                                 <tbody>
