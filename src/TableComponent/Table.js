@@ -167,7 +167,7 @@ class Table extends Component {
 		}).then(response => {
 			//console.log("delete",response);
 			if (response.status === 200) {
-				alert("delete");
+				//alert("delete");
 				self.update();
 			}
 		}).catch(error => {
@@ -300,7 +300,7 @@ class Table extends Component {
 				for (let i = 0; i < self.checkedBoxArray.length; ++i) {
 							self.checkedBoxArray[i].checked = false;
 						}
-				alert("add to mailist")
+			//	alert("add to mailist")
 
 			}
 		}).catch(error => {

@@ -12,6 +12,7 @@ class MailListContacts extends Component {
 		this.deleteContact = this.deleteContact.bind(this);
 		this.deletePopUp = this.deletePopUp.bind(this);
 		this.changeDeleteState = this.changeDeleteState.bind(this);
+		this.changePopupState = this.changePopupState.bind(this);
 	}
 	deleteContact() {
 		this.setState({delete:false});
@@ -44,11 +45,15 @@ class MailListContacts extends Component {
 					<div className="deletePopUp">
 						<h4>Are you sure?</h4>
 						<button className="See_Contacts " onClick={this.deleteContact} >Yes</button>
-						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
+						<button className="See_Contacts" onClick={this.changePopupState}>No</button>
 					</div>
 				</div>
 			)
 		}
+	}
+	changePopupState(event){
+		//console.log(event.target.id);
+		this.setState({delete:false});
 	}
 	changeDeleteState(event){
 		//console.log(event.target.id);

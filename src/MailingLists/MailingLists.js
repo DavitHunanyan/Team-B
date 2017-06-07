@@ -63,7 +63,7 @@ class MailingLists extends Component {
 
 		}).then(response => {
 			if (response.status === 200) {
-				alert("Delete");
+			//	alert("Delete");
 				self.setState({
 					selectedMailListId: [],
 					mailListContacts: [],
@@ -248,7 +248,7 @@ class MailingLists extends Component {
 					  <td key={data.Contacts.length}>
 				     	{data.Contacts.length}
                      </td>
-			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >Contacts</button></td>
+			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >View</button></td>
 		     	</tr>
 		     	);
 		     	return(

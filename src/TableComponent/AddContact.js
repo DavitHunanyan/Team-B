@@ -33,6 +33,9 @@ class AddContact extends Component{
 						self.props.back();
 					
 					}
+					if(response.status === 400){
+						alert("You are already registersed");
+					}
 				}).catch(error => {
 					alert("Something went wrong");
 				})
