@@ -1,39 +1,43 @@
 import React,{Component} from 'react';
-//import call from '../Fetch.js';
 
 class TemplateSelect extends Component {
 	constructor(props) {
 		super(props);
-        // this.state={
-        //     Template:[]
-        // }
+        this.state={
+            Template:[]
+        }
 		this.selectOnChange = this.selectOnChange.bind(this); 
+        this.renderTemplate = this.renderTemplate.bind(this);
 	}
-    // componentDidMount(){
-    //     call('http://crmbetb.azurewebsites.net/api/Templates', 'GET').then(response => {
-	// 				this.setState({
-	// 					Template: response
-	// 				});
-    //              console.log(response);
-    //             });
-    // }
+
+     componentDidMount(){
+        let self = this;
+		return fetch('http://crmbetb.azurewebsites.net/api/Templates').then(function(response) {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then(response => {
+           //console.log("maillist",response);
+			self.setState({
+				Template: response,
+			})
+		}).catch(error => {
+			alert("Something went wrong")
+		})
+     }
     selectOnChange(event){
 				//console.log("You Select ",event.target.value);
                 this.props.getValue(event.target.value);
 			}
+            
+	 renderTemplate(data, index) {
+        return (<option value={data.Id} key={index} >{data.TemplateName}</option>)
+    }
 	render(){
-        // let data = this.state.Template;
-        // const options=data.map((data,index)=>{
-        //     console.log("Template",data.TemplateName);
-        //     <option key={data.Id} value={data.Id} >{data.TemplateName}</option>
-        // })
         return(
             <select onChange={this.selectOnChange} defaultValue="">
+                {this.state.Template.map(this.renderTemplate)}
             <option value ="">No Selected</option>
-            <option value="1">Christmas</option>
-            <option value="2">Army day</option>
-            <option value="3">New Year</option>
-            {/*{options}*/}
             </select>
         );
     }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../Fetch.js';
 import pencil from "./pencil.png";
 
 class TableRow extends Component {

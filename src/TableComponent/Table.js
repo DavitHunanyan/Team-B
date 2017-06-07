@@ -269,7 +269,7 @@ class Table extends Component {
 				disabledSendBtn: true
 			})
 		}
-		//console.log("In State Id",this.state.TemplateId);
+	//	console.log("In State Id",this.TemplateId);
 	}
 	onChangefromMailListSelect(event){
 		//console.log(event.target.value);
