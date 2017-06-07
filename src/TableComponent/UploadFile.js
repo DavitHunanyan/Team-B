@@ -53,9 +53,9 @@ UploadFile(){
             <div className="uploadCSV">
                 
                     <input name="data" type="file" onChange={this.fileInputOnChange}></input>
-                   <button id="sendBtn" disabled={this.state.disabled} onClick={this.UploadFile} >Upload</button>
+                   <button className="btnAll" id="sendBtn" disabled={this.state.disabled} onClick={this.UploadFile} >Upload</button>
                 
-                <button className="deleteBtn" onClick={this.props.back}>Back</button>
+                <button className="btnAll" id="deleteBtn" onClick={this.props.back}>Back</button>
             </div>
         );
     }

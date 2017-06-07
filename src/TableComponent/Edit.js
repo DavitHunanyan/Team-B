@@ -50,8 +50,8 @@ class Edit extends Component {
 					<span>Email</span>
 					<p><input type="email"  defaultValue={this.props.data.Email} ref="email"/></p>
 
-				    <p><button id="sendBtn" onClick={this.save}>Save</button>
-					<button className="deleteBtn" onClick={this.props.cancel}>Cancel</button></p>
+				    <p><button className="btnAll" id="sendBtn" onClick={this.save}>Save</button>
+					<button className="btnAll" id="deleteBtn" onClick={this.props.cancel}>Cancel</button></p>
 
 					</div>
 				</div>

@@ -265,10 +265,10 @@ class MailingLists extends Component {
 							  <div id="templateSelect">
 									<span>Template :</span>
 								<TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
-								<button key="sendBtn" id="sendBtn" disabled={this.state.disSendBtn} onClick={this.sendMail}>Send Mail</button>
+								<button key="sendBtn" className="btnAll" id="sendBtn" disabled={this.state.disSendBtn} onClick={this.sendMail}>Send Mail</button>
 							 </div>
 							 <div className="btnDiv">
-                             <button id="deleteBtn" disabled={this.state.deleteBtnDisable} className="deleteBtn" onClick={this.changeDeleteState}>Delete </button>{this.deletePopUp()}
+                             <button id="deleteBtn" disabled={this.state.deleteBtnDisable} className="btnAll" onClick={this.changeDeleteState}>Delete </button>{this.deletePopUp()}
 							 </div>
                         </div>
                         <div className="Block" >

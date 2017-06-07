@@ -47,13 +47,13 @@ class TableRow extends Component {
 			     	<td key={["Company name"]}>
 				     	{data["Company name"]}
 				     </td>
-					  <td key={data.Position}>
+					  <td key={data.Position + "_P"}>
 			     	    {data.Position}
 			     	</td>
-			     	<td key= {data.Country}>
+			     	<td key= {data.Country + "_C"}>
 			     	    {data.Country}
 			     	</td>
-			     	<td key={data.Email}>
+			     	<td key={data.Email + "_E"}>
 			     	    {data.Email}
 			     	</td>
 					 

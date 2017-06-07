@@ -2,33 +2,57 @@
 	float: left;
 	margin: 20px 10px;;
 }
+
 table {
     width: 100%;
     margin: 0px auto;
-    border: solid 2px #504b4b;
+    border: solid 2px #735A73;
     border-collapse: collapse;
 	 border-bottom: 0;
 	 
 }
 
 table td{
-	border:solid 2px #504b4b;
+	border:solid 2px #735A73;
 	border-collapse: collapse;
 	text-align: left;
 	padding: 5px 5px;
 	
 }
+
 table th{
-	border:solid 2px #504b4b;
+	border:solid 2px #735A73;
 	border-collapse: collapse;
 	text-align: left;
 	padding: 5px 5px;
 	
 }
+
 #templateSelect{
 	display: inline-block;
 	border: solid 2px #167ec9; 
 	height: 60px;
 	border-radius: 10px;
 	margin-top: 20px;
+}
+
+@media (max-width:304px) {
+	#templateSelect{
+		margin-bottom: 8px;
+		height: 85px;
+		padding-top: 5px;
+		
+	}
+}
+
+@media (max-width:283px) {
+	#templateSelect{
+		width: 220px;
+	}
+}
+
+@media (max-width:230px) {
+	#templateSelect{
+		width: 193px;
+	}
 }

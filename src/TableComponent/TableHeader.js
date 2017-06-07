@@ -17,9 +17,9 @@ class TableHeader extends Component{
 		 	return(
 		 <thead>
 		 	<tr >
-				<th>Choose</th>
+				<th>Select</th>
                  {head}
-				 <th>Action</th>
+				 <th>Edit</th>
 		 	</tr>
 		 </thead>
 		 	);

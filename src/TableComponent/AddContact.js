@@ -58,8 +58,8 @@ class AddContact extends Component{
 					<span>Email</span>
 					<p><input type="text"   ref="email"/></p>
 
-				    <button  id="sendBtn" onClick={this.saveContact}>Save</button>
-					<button className="deleteBtn" onClick={this.props.back}>Back</button>
+				    <button  className="btnAll" id="sendBtn" onClick={this.saveContact}>Save</button>
+					<button className="btnAll" id="deleteBtn" onClick={this.props.back}>Back</button>
 					</div>
 				</div>
 					

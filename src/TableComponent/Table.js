@@ -359,22 +359,22 @@ class Table extends Component {
 					
 			     </div>
 				 <div className="BtnBox">
-				 	<button key ="addBtn" id="addBtn"  onClick={this.addContact}>Add Contact</button>
+				 	<button key ="addBtn" className="btnAll" id="addBtn"  onClick={this.addContact}>Add Contact</button>
 					 <div id="templateSelectBox">
 					 <TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
-				 	<button key="sendBtn" id="sendBtn" disabled={this.state.disabledSendBtn} onClick={this.sendMail}>Send Mail</button>
+				 	<button key="sendBtn" className="btnAll" id="sendBtn" disabled={this.state.disabledSendBtn} onClick={this.sendMail}>Send Mail</button>
 					 </div>
 					 <div className="btnDiv">
-					  <button key="deletBtn" id="deleteBtn" disabled={this.state.disabled} className="deleteBtn" onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()} 
+					  <button key="deletBtn" className="btnAll" id="deleteBtn" disabled={this.state.disabled} onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()} 
 					  </div>
 					  <div id="maillist">
 					  <input type="text" ref="creatMList" placeholder="List Name" onChange={this.mailListName} id="listname"/>
-					  <button key="createMailListBtn" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Create List</button>
+					  <button key="createMailListBtn" className="btnAll" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Create List</button>
 					  </div>
-					  <button  className="deleteBtn" id="Upload_btn" onClick={this.uploadFile}>Upload File</button>
+					  <button  className="btnAll" id="Upload_btn" onClick={this.uploadFile}>Upload File</button>
 					  <div id="maillist">
 					  <MailListSelect onChange={this.onChangefromMailListSelect} />
-					  <button key="MailListadd" id="createMailListBtn" onClick={this.addToList}  disabled={this.state.disabledAddToList} >Add to List</button>
+					  <button key="MailListadd" className="btnAll" id="createMailListBtn" onClick={this.addToList}  disabled={this.state.disabledAddToList} >Add to List</button>
 					  </div>
 					  </div>
 				 </div> 

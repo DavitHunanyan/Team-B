@@ -11,11 +11,13 @@
 	top:10%;
 	
 }
+
 .list_menu{
 	text-decoration: none;
     list-style-type: none;
     width: 100%;
 }
+
 .menu_item{
 	text-decoration: none;
     color: azure;
@@ -36,9 +38,11 @@
 .menu_item:hover{
     background-color:#CFAEE9;
 }
+
 .active{
     background-color:#513654;
 }
+
 a :active{
     background-color:#513654;
 }
