@@ -25,6 +25,8 @@ class Table extends Component {
 			creatListBtndisabled: true,
 			uploadFile: false,
 			delete: false,
+			success:false,
+			error:false,
 			loading: true,
 			disabledAddToList:true
 		};
@@ -48,6 +50,8 @@ class Table extends Component {
 		this.changeDeleteState = this.changeDeleteState.bind(this);
 		this.onChangefromMailListSelect = this.onChangefromMailListSelect.bind(this);
 		this.addToList = this.addToList.bind(this);
+		this.successPopUp =this.successPopUp.bind(this);
+		this.errorPopUp = this.errorPopUp.bind(this);
 	}
 	checkBoxChanges(target) {
 		this.checkedBoxArray.push(target);
@@ -70,13 +74,13 @@ class Table extends Component {
 				return response.json();
 			}
 		}).then(response => {
-			console.log(response);
+			//console.log(response);
 			self.setState({
 				data: response,
 				loading: false
 			})
 		}).catch(error => {
-			alert("Something went wrong")
+			alert("No internet connection");
 		})
 	}
 	sendMail() {
@@ -100,10 +104,12 @@ class Table extends Component {
 
 			}).then(response => {
 				if (response.status === 200) {
-					alert("Mail is sent");
+					self.setState({success:true})
 				}
 			}).catch(error => {
-				alert("Something went wrong");
+				self.setState({
+					error:true
+				})
 			})
 
 		}
@@ -168,12 +174,16 @@ class Table extends Component {
 		}).then(response => {
 			//console.log("delete",response);
 			if (response.status === 200) {
-				//alert("delete");
+				self.setState({
+					success:true
+				})
 				self.update();
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Something went wrong");
+		self.setState({
+					error:true
+				})
 		})
 
 	}
@@ -189,7 +199,9 @@ class Table extends Component {
 				guids: []
 			});
 		}).catch(error => {
-			alert("Something went wrong")
+			self.setState({
+					error:true
+				})
 		})
 	}
 	mailListName() {
@@ -224,7 +236,9 @@ class Table extends Component {
 				}).then(response => {
 					//console.log("createMaillist",response);
 					if (response.status === 201) {
-						alert("MailList is Created");
+						self.setState({
+									success:true
+								})
 						for (let i = 0; i < self.checkedBoxArray.length; ++i) {
 							self.checkedBoxArray[i].checked = false;
 						}
@@ -234,7 +248,9 @@ class Table extends Component {
 						self.refs.creatMList.value = "";
 					}
 				}).catch(error => {
-					alert("Something went wrong");
+					self.setState({
+					error:true
+				})
 				})
 
 			}
@@ -244,8 +260,8 @@ class Table extends Component {
 	deletePopUp(){
 		if(this.state.delete){
 			return(
-				<div className="deleteBox">
-					<div className="deletePopUp">
+				<div className="PopUpBox">
+					<div className="PopUp">
 						<h4>Are you sure?</h4>
 						<button className="See_Contacts" onClick={this.delete}>Yes</button>
 						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
@@ -254,7 +270,44 @@ class Table extends Component {
 			)
 		}
 	}
-
+		successPopUp(){
+			let self = this;
+		if(this.state.success){
+			setTimeout(function(){
+				self.setState({
+					success:false
+				})
+			},1000)
+			return(
+				<div className="PopUpBox">
+					<div className="PopUp">
+						<div className="successContainer">
+						<div className="success">Success !</div>
+						</div>
+					</div>
+				</div>
+			)
+		}
+	}
+	errorPopUp(){
+				let self = this;
+			if(this.state.error){
+				setTimeout(function(){
+					self.setState({
+						error:false
+					})
+				},2500)
+				return(
+					<div className="PopUpBox">
+						<div className="PopUp">
+							<div className="errorContainer">
+							<div className="error"><b>Something went wrong !</b></div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
 	changeDeleteState(){
 		this.setState({delete:!this.state.delete});
 	}
@@ -301,12 +354,16 @@ class Table extends Component {
 				for (let i = 0; i < self.checkedBoxArray.length; ++i) {
 							self.checkedBoxArray[i].checked = false;
 						}
-			//	alert("add to mailist")
+			self.setState({
+					success:true
+				})
 
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Something went wrong");
+				self.setState({
+					error:true
+				})
 		})
 		}else{
 			alert("no select mailing list or no choose contact");
@@ -353,8 +410,10 @@ class Table extends Component {
 		     	return(
 		     	<div className="UserTable">
 					<div id="scroll">
+						{this.successPopUp()} 
+						{this.errorPopUp()} 
 			     	<table className="table">
-			     	<TableHeader headerdata={this.state.data[0]} className="tableheader" checkedChange={this.checkedChange} checked={this.state.allchecked}/>
+			     	<TableHeader headerdata={this.state.data[0]} className="tableheader" checkedChange={this.checkedChange} />
 			     	<TableRow isdisabledprop={this.isDisable}  dataArray={this.state.data} guids={this.state.guids} editBtn={this.onClickEditBtn} checkBoxChanges={this.checkBoxChanges}/>
 			     	</table>
 					

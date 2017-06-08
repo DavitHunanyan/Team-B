@@ -29,12 +29,12 @@ UploadFile(){
                     self.props.update();
                 }
                 if(res.status===400){
-                    alert("File have been added");
+                    alert("This file is already uploaded");
                 }
 				return res.json()
 			})//.then(res => console.log(res))
       }else{
-          alert("No File");
+          alert("No Selected File");
       }
          }
      fileInputOnChange(){
