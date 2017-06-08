@@ -41,10 +41,10 @@ class TableRow extends Component {
 					 <td key={index} id="checkbox">
 						 <input type="checkbox" ref={index} id={index} onChange ={this.checkBoxOnChange }  /> 
 					 </td>
-			     	<td key={data["Full name"]}>
+			     	<td key={data["Full name"]+{index}}>
 				     	{data["Full name"]}
 			     	</td>
-			     	<td key={["Company name"]}>
+			     	<td key={["Company name"]+{index}}>
 				     	{data["Company name"]}
 				     </td>
 					  <td key={data.Position + "_P"}>

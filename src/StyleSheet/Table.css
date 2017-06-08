@@ -103,7 +103,7 @@
    -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    text-shadow: #7c8a7c 0 1px 0;
-   color: #5d6155;
+   color: black;
    font-size: 15px;
    font-family: Georgia;
    text-decoration: none;
@@ -160,7 +160,7 @@
    -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    text-shadow: #7c8a7c 0 1px 0;
-   color: #4e573c;
+   color: black;
    font-size: 15px;
    font-family: Georgia;
    text-decoration: none;
@@ -213,7 +213,7 @@
    -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    text-shadow: #7d7b8a 0 1px 0;
-   color: #700101;
+   color:black;
    font-size: 15px;
    font-family: Georgia;
    text-decoration: none;
@@ -266,7 +266,7 @@
    -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
    text-shadow: #161d42 0 1px 0;
-   color: #063973;
+   color: black;
    font-size: 15px;
    font-family: Georgia;
    text-decoration: none;

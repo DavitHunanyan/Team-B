@@ -67,19 +67,19 @@ class MailListContacts extends Component {
          const data=this.props.data;
 		      const row = data.map((data,index)=>
 		     	<tr key={index} ref={index}>
-			     	 <td key={data["Full name"]}> 
+			     	 <td key={data["Full name"]+"F"}> 
 				     	{data["Full name"]}
                      </td>
-                     <td key={["Company name"]}>
+                     <td key={["Company name"]+"CN"}>
 				     	{data["Company name"]}
 				     </td>
-					  <td key={data.Position}>
+					  <td key={data.Position + "P"}>
 			     	    {data.Position}
 			     	</td>
-			     	<td key= {data.Country}>
+			     	<td key= {data.Country+ "C"}>
 			     	    {data.Country}
 			     	</td>
-			     	<td key={data.Email}>
+			     	<td key={data.Email+ "E"}>
 			     	    {data.Email}
 			     	</td>
 					 <td>

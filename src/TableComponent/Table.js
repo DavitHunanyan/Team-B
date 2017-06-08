@@ -70,6 +70,7 @@ class Table extends Component {
 				return response.json();
 			}
 		}).then(response => {
+			console.log(response);
 			self.setState({
 				data: response,
 				loading: false

@@ -242,10 +242,10 @@ class MailingLists extends Component {
                      <td key={"checkbox" +index} id="checkbox">
 						 <input type="checkbox" ref={index} id={index} onChange={this.checkBoxOnChange} /> 
 					 </td>
-			     	 <td key={data.MailingListName}>
+			     	 <td key={data.MailingListName +"MLN"}>
 				     	{data.MailingListName}
                      </td>
-					  <td key={data.Contacts.length}>
+					  <td key={data.Contacts.length+"L"}>
 				     	{data.Contacts.length}
                      </td>
 			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >View</button></td>
