@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import pencil from "./pencil.png";
+import pencil from "../StyleSheet/pencil.png";
 
 class TableRow extends Component {
 	constructor(props) {

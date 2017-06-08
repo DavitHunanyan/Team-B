@@ -22,6 +22,13 @@
     color: green;
     font-size: 25px;
 }
+.delete{
+     width: 111px;
+    margin:15px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    color: red;
+    font-size: 25px;
+}
 .errorContainer{
      width: 100%;
 
@@ -403,7 +410,7 @@
 #maillist{
 	display: inline-block;
 	border: solid 2px #167ec9;
-	/*padding: 5px;*/
+	padding-left: 5px;
 	height: 60px;
 	border-radius: 10px;
 }
@@ -414,6 +421,7 @@
 }
 
 #templateSelectBox{
+    padding-left: 5px;
 	display: inline-block;
 	border: solid 2px #167ec9;
 	height: 60px;

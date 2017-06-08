@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import del from "./delete.jpg";
+import del from "../StyleSheet/delete.jpg";
 
 class MailListContacts extends Component {
 	constructor(props) {

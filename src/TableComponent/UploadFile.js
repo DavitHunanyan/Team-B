@@ -29,7 +29,7 @@ UploadFile(){
                     self.props.update();
                 }
                 if(res.status===400){
-                    alert("This file is already uploaded");
+                    alert("Data in file is corrupt");
                 }
 				return res.json()
 			})//.then(res => console.log(res))
