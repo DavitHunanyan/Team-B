@@ -314,7 +314,7 @@ class Table extends Component {
 
 	getSeletValue(value) {
 		this.TemplateId = value;
-		if (value !== "") {
+		if (value !== ""&& this.state.guids.length>0) {
 			this.setState({
 				disabledSendBtn: false
 			})

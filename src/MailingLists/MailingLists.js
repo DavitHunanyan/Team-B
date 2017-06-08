@@ -17,6 +17,8 @@ class MailingLists extends Component {
 			deleteBtnDisable: true,
 			disSendBtn: true,
 			delete: false,
+			error:false,
+			success:false,
 			MailingListId: "",
 			SelectMailListIndex: ""
 		}
@@ -29,6 +31,8 @@ class MailingLists extends Component {
 		this.deletePopUp = this.deletePopUp.bind(this);
 		this.changeDeleteState = this.changeDeleteState.bind(this);
 		this.updateFromContactslist = this.updateFromContactslist.bind(this);
+		this.errorPopUp= this.errorPopUp.bind(this);
+		this.successPopUp =this.successPopUp.bind(this);
 	}
 
 	componentDidMount() {
@@ -43,7 +47,9 @@ class MailingLists extends Component {
 				loading: false
 			})
 		}).catch(error => {
-			alert("Something went wrong")
+			self.setState({
+					error:true
+				})
 		})
 	}
 	delete() {
@@ -76,7 +82,9 @@ class MailingLists extends Component {
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Something went wrong");
+			self.setState({
+					error:true
+				})
 		});
 
 	}
@@ -92,7 +100,9 @@ class MailingLists extends Component {
 				loading: false
 			})
 		}).catch(error => {
-			alert("Something went wrong")
+			self.setState({
+					error:true
+				})
 		})
 	}
 	seeContacts(event) {
@@ -114,7 +124,9 @@ class MailingLists extends Component {
 				header: response.MailingListName,
 			})
 		}).catch(error => {
-			alert("Something went wrong")
+			self.setState({
+					error:true
+				})
 		})
 	}
 	updateFromContactslist() {
@@ -129,7 +141,9 @@ class MailingLists extends Component {
 				header: response.MailingListName,
 			})
 		}).catch(error => {
-			alert("Something went wrong")
+			self.setState({
+					error:true
+				})
 		})
 	}
 	checkBoxOnChange(event) {
@@ -170,12 +184,31 @@ class MailingLists extends Component {
 			})
 		}
 	}
+	errorPopUp(){
+				let self = this;
+			if(this.state.error){
+				setTimeout(function(){
+					self.setState({
+						error:false
+					})
+				},2500)
+				return(
+					<div className="PopUpBox">
+						<div className="PopUp">
+							<div className="errorContainer">
+							<div className="error"><b>Something went wrong !</b></div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
 
 	deletePopUp(){
 		if(this.state.delete){
 			return(
-				<div className="deleteBox">
-					<div className="deletePopUp">
+				<div className="PopUpBox">
+					<div className="PopUp">
 						<h4>Are you sure?</h4>
 						<button className="See_Contacts" onClick={this.delete}>Yes</button>
 						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
@@ -184,7 +217,25 @@ class MailingLists extends Component {
 			)
 		}
 	}
-
+	successPopUp(){
+			let self = this;
+		if(this.state.success){
+			setTimeout(function(){
+				self.setState({
+					success:false
+				})
+			},1000)
+			return(
+				<div className="PopUpBox">
+					<div className="PopUp">
+						<div className="successContainer">
+						<div className="success">Success !</div>
+						</div>
+					</div>
+				</div>
+			)
+		}
+	}
 	changeDeleteState(){
 		this.setState({delete:!this.state.delete});
 	}
@@ -209,10 +260,14 @@ class MailingLists extends Component {
 
 			}).then(response => {
 				if (response.status === 200) {
-					alert("Mail is sent");
+					self.setState({
+					success:true
+				})
 				}
 			}).catch(error => {
-				alert("Something went wrong");
+				self.setState({
+					error:true
+				})
 			})
 
 		}
@@ -253,6 +308,8 @@ class MailingLists extends Component {
 		     	);
 		     	return(
                      <div>
+						 {this.errorPopUp()} 
+						  {this.successPopUp()} 
                         <div className ="Block">
 							<h3>Mailing List</h3>
                             <table>
