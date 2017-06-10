@@ -9,243 +9,263 @@ import TemplateSelect from './TemplateSelect.js';
 import MailListSelect from './MailListSelect.js';
 
 class Table extends Component {
-	constructor(props) {
-		super(props);
-		this.checkedBoxArray=[];
-		this.TemplateId="";
-		this.MailListId="";
-		this.state = {
-			data: [],
-			guids: [],
-			edit: false,
-			editObj: {},
-			disabled: true,
-			disabledSendBtn: true,
-			addContact: false,
-			creatListBtndisabled: true,
-			uploadFile: false,
-			delete: false,
-			loading: true,
-			disabledAddToList:true
-		};
-		this.sendMail = this.sendMail.bind(this);
-		this.getGuid = this.getGuid.bind(this);
-		this.saveFromEdit = this.saveFromEdit.bind(this);
-		this.cancel = this.cancel.bind(this);
-		this.onClickEditBtn = this.onClickEditBtn.bind(this);
-		this.isDisable = this.isDisable.bind(this);
-		this.addContact = this.addContact.bind(this);
-		this.back = this.back.bind(this);
-		this.delete = this.delete.bind(this);
-		this.update = this.update.bind(this);
-		this.checkBoxChanges = this.checkBoxChanges.bind(this);
-		this.createMailList = this.createMailList.bind(this);
-		this.mailListName = this.mailListName.bind(this);
-		this.uploadFile = this.uploadFile.bind(this);
-		this.backfromUploadFile = this.backfromUploadFile.bind(this);
-		this.getSeletValue = this.getSeletValue.bind(this);
-		this.deletePopUp = this.deletePopUp.bind(this);
-		this.changeDeleteState = this.changeDeleteState.bind(this);
-		this.onChangefromMailListSelect = this.onChangefromMailListSelect.bind(this);
-		this.addToList = this.addToList.bind(this);
-	}
-	checkBoxChanges(target) {
-		this.checkedBoxArray.push(target);
-	}
-	isDisable(disabled) {
-		this.setState({
-			disabled: disabled
-		});
-	}
+    constructor(props) {
+        super(props);
+        this.checkedBoxArray = [];
+        this.TemplateId = "";
+        this.MailListId = "";
+        this.state = {
+            data: [],
+            guids: [],
+            edit: false,
+            editObj: {},
+            disabled: true,
+            disabledSendBtn: true,
+            addContact: false,
+            creatListBtndisabled: true,
+            uploadFile: false,
+            delete: false,
+            deletesuccess: false,
+            success: false,
+            error: false,
+            loading: true,
+            disabledAddToList: true
+        };
+        this.sendMail = this.sendMail.bind(this);
+        this.getGuid = this.getGuid.bind(this);
+        this.saveFromEdit = this.saveFromEdit.bind(this);
+        this.cancel = this.cancel.bind(this);
+        this.onClickEditBtn = this.onClickEditBtn.bind(this);
+        this.isDisable = this.isDisable.bind(this);
+        this.addContact = this.addContact.bind(this);
+        this.back = this.back.bind(this);
+        this.delete = this.delete.bind(this);
+        this.update = this.update.bind(this);
+        this.checkBoxChanges = this.checkBoxChanges.bind(this);
+        this.createMailList = this.createMailList.bind(this);
+        this.mailListName = this.mailListName.bind(this);
+        this.uploadFile = this.uploadFile.bind(this);
+        this.backfromUploadFile = this.backfromUploadFile.bind(this);
+        this.getSeletValue = this.getSeletValue.bind(this);
+        this.deletePopUp = this.deletePopUp.bind(this);
+        this.changeDeleteState = this.changeDeleteState.bind(this);
+        this.onChangefromMailListSelect = this.onChangefromMailListSelect.bind(this);
+        this.addToList = this.addToList.bind(this);
+        this.successPopUp = this.successPopUp.bind(this);
+        this.errorPopUp = this.errorPopUp.bind(this);
+        this.deletesuccessPopUp = this.deletesuccessPopUp.bind(this);
+    }
+    checkBoxChanges(target) {
+        this.checkedBoxArray.push(target);
+    }
+    isDisable(disabled) {
+        this.setState({
+            disabled: disabled
+        });
+    }
 
-	getGuid(guidArray) {
-		this.setState({
-			guids: guidArray
-		});
-	}
-	componentDidMount() {
-		let self = this;
-		return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
-			if (response.status === 200) {
-				return response.json();
-			}
-		}).then(response => {
-			console.log(response);
-			self.setState({
-				data: response,
-				loading: false
-			})
-		}).catch(error => {
-			alert("Something went wrong")
-		})
-	}
-	sendMail() {
-		let self = this;
-		this.setState({
-			disabledSendBtn: true,
-			guids: []
-		});
-		for (let i = 0; i < this.checkedBoxArray.length; ++i) {
-			this.checkedBoxArray[i].checked = false;
-		}
+    getGuid(guidArray) {
+        this.setState({
+            guids: guidArray
+        });
+    }
+    componentDidMount() {
+        let self = this;
+        return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
+            if (response.status === 200) {
+                return response.json();
+            }
+        }).then(response => {
+            //console.log(response);
+            self.setState({
+                data: response,
+                loading: false
+            })
+        }).catch(error => {
+            alert("No internet connection");
+        })
+    }
+    sendMail() {
+        let self = this;
+        this.setState({
+            disabledSendBtn: true,
+            guids: []
+        });
+        for (let i = 0; i < this.checkedBoxArray.length; ++i) {
+            this.checkedBoxArray[i].checked = false;
+        }
 
-		if (this.state.guids.length !== 0 && this.state.TemplateId !== "") {
-			return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + self.TemplateId, {
-				method: "POST",
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(self.state.guids)
+        if (this.state.guids.length !== 0 && this.state.TemplateId !== "") {
+            return fetch("http://crmbetb.azurewebsites.net/api/SendMail/" + self.TemplateId, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(self.state.guids)
 
-			}).then(response => {
-				if (response.status === 200) {
-					alert("Mail is sent");
-				}
-			}).catch(error => {
-				alert("Something went wrong");
-			})
+            }).then(response => {
+                if (response.status === 200) {
+                    self.setState({
+                        success: true
+                    })
+                }
+            }).catch(error => {
+                self.setState({
+                    error: true
+                })
+            })
 
-		}
+        }
 
-	}
-	onClickEditBtn(event) {
-		this.setState({
-			editObj: this.state.data[event.target.id]
-		});
-		this.setState({
-			edit: true
-		});
-	}
-	cancel() {
-		this.setState({
-			edit: false
-		});
-	}
-	saveFromEdit() {
-		this.setState({
-			edit: false
-		});
-	}
-	addContact() {
-		this.setState({
-			addContact: true
-		});
-	}
-	uploadFile() {
-		this.setState({
-			uploadFile: true
-		});
-	}
-	backfromUploadFile() {
-		this.setState({
-			uploadFile: false
-		});
-	}
-	back() {
-		this.setState({
-			addContact: false
-		});
-	}
+    }
+    onClickEditBtn(event) {
+        this.setState({
+            editObj: this.state.data[event.target.id]
+        });
+        this.setState({
+            edit: true
+        });
+    }
+    cancel() {
+        this.setState({
+            edit: false
+        });
+    }
+    saveFromEdit() {
+        this.setState({
+            edit: false
+        });
+    }
+    addContact() {
+        this.setState({
+            addContact: true
+        });
+    }
+    uploadFile() {
+        this.setState({
+            uploadFile: true
+        });
+    }
+    backfromUploadFile() {
+        this.setState({
+            uploadFile: false
+        });
+    }
+    back() {
+        this.setState({
+            addContact: false
+        });
+    }
 
-	delete() {
-		let self = this;
-		for (let i = 0; i < this.checkedBoxArray.length; ++i) {
-			this.checkedBoxArray[i].checked = false;
-		}
-		self.setState({
-			disabled: true
-		});
-		this.changeDeleteState();
-		return fetch("http://crmbetb.azurewebsites.net/api/Contacts", {
-			method: "DELETE",
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(self.state.guids)
+    delete() {
+        let self = this;
+        for (let i = 0; i < this.checkedBoxArray.length; ++i) {
+            this.checkedBoxArray[i].checked = false;
+        }
+        self.setState({
+            disabled: true
+        });
+        this.changeDeleteState();
+        return fetch("http://crmbetb.azurewebsites.net/api/Contacts", {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(self.state.guids)
 
-		}).then(response => {
-			//console.log("delete",response);
-			if (response.status === 200) {
-				//alert("delete");
-				self.update();
-			}
-		}).catch(error => {
-			console.log(error);
-			alert("Something went wrong");
-		})
+        }).then(response => {
+            //console.log("delete",response);
+            if (response.status === 200) {
+                self.setState({
+                    deletesuccess: true
+                })
+                self.update();
+            }
+        }).catch(error => {
+            console.log(error);
+            self.setState({
+                error: true
+            })
+        })
 
-	}
-	update() {
-		let self = this;
-		return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
-			if (response.status === 200) {
-				return response.json();
-			}
-		}).then(response => {
-			self.setState({
-				data: response,
-				guids: []
-			});
-		}).catch(error => {
-			alert("Something went wrong")
-		})
-	}
-	mailListName() {
-		if (this.refs.creatMList.value) {
-			this.setState({
-				creatListBtndisabled: false
+    }
+    update() {
+        let self = this;
+        return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
+            if (response.status === 200) {
+                return response.json();
+            }
+        }).then(response => {
+            self.setState({
+                data: response,
+                guids: []
+            });
+        }).catch(error => {
+            self.setState({
+                error: true
+            })
+        })
+    }
+    mailListName() {
+        if (this.refs.creatMList.value) {
+            this.setState({
+                creatListBtndisabled: false
 
-			})
-		} else {
-			this.setState({
-				creatListBtndisabled: true
+            })
+        } else {
+            this.setState({
+                creatListBtndisabled: true
 
-			})
-		}
-	}
-	createMailList() {
-		let self = this;
-		if (this.refs.creatMList.value) {
-			if (this.state.guids.length > 0) {
-				this.setState({
-					creatListBtndisabled: true,
-					disabled: true,
-				})
-				return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/new?name=" + self.refs.creatMList.value, {
-					method: "POST",
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(self.state.guids)
+            })
+        }
+    }
+    createMailList() {
+        let self = this;
+        if (this.refs.creatMList.value) {
+            if (this.state.guids.length > 0) {
+                this.setState({
+                    creatListBtndisabled: true,
+                    disabled: true,
+                })
+                return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/new?name=" + self.refs.creatMList.value, {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(self.state.guids)
 
-				}).then(response => {
-					//console.log("createMaillist",response);
-					if (response.status === 201) {
-						alert("MailList is Created");
-						for (let i = 0; i < self.checkedBoxArray.length; ++i) {
-							self.checkedBoxArray[i].checked = false;
-						}
-						self.setState({
-							guids: []
-						});
-						self.refs.creatMList.value = "";
-					}
-				}).catch(error => {
-					alert("Something went wrong");
-				})
+                }).then(response => {
+                    //console.log("createMaillist",response);
+                    if (response.status === 201) {
+                        self.setState({
+                            success: true
+                        })
+                        for (let i = 0; i < self.checkedBoxArray.length; ++i) {
+                            self.checkedBoxArray[i].checked = false;
+                        }
+                        self.setState({
+                            guids: []
+                        });
+                        self.refs.creatMList.value = "";
+                    }
+                }).catch(error => {
+                    self.setState({
+                        error: true
+                    })
+                })
 
-			}
-		}
-	}
+            }
+        }
+    }
 
 	deletePopUp(){
 		if(this.state.delete){
 			return(
-				<div className="deleteBox">
-					<div className="deletePopUp">
+				<div className="PopUpBox">
+					<div className="PopUp">
 						<h4>Are you sure?</h4>
 						<button className="See_Contacts" onClick={this.delete}>Yes</button>
 						<button className="See_Contacts" onClick={this.changeDeleteState}>No</button>
@@ -254,14 +274,70 @@ class Table extends Component {
 			)
 		}
 	}
-
+		successPopUp(){
+			let self = this;
+		if(this.state.success){
+			setTimeout(function(){
+				self.setState({
+					success:false
+				})
+			},1000)
+			return(
+				<div className="PopUpBox">
+					<div className="PopUp">
+						<div className="successContainer">
+						<div className="success">Success !</div>
+						</div>
+					</div>
+				</div>
+			)
+		}
+	}
+	deletesuccessPopUp(){
+			let self = this;
+		if(this.state.deletesuccess){
+			setTimeout(function(){
+				self.setState({
+					deletesuccess:false
+				})
+			},1000)
+			return(
+				<div className="PopUpBox">
+					<div className="PopUp">
+						<div className="successContainer">
+						<div className="delete">Delete !</div>
+						</div>
+					</div>
+				</div>
+			)
+		}
+	}
+	errorPopUp(){
+				let self = this;
+			if(this.state.error){
+				setTimeout(function(){
+					self.setState({
+						error:false
+					})
+				},2500)
+				return(
+					<div className="PopUpBox">
+						<div className="PopUp">
+							<div className="errorContainer">
+							<div className="error"><b>Something went wrong !</b></div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
 	changeDeleteState(){
 		this.setState({delete:!this.state.delete});
 	}
 
 	getSeletValue(value) {
 		this.TemplateId = value;
-		if (value !== "") {
+		if (value !== ""&& this.state.guids.length>0) {
 			this.setState({
 				disabledSendBtn: false
 			})
@@ -301,12 +377,16 @@ class Table extends Component {
 				for (let i = 0; i < self.checkedBoxArray.length; ++i) {
 							self.checkedBoxArray[i].checked = false;
 						}
-			//	alert("add to mailist")
+			self.setState({
+					success:true
+				})
 
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Something went wrong");
+				self.setState({
+					error:true
+				})
 		})
 		}else{
 			alert("no select mailing list or no choose contact");
@@ -353,8 +433,11 @@ class Table extends Component {
 		     	return(
 		     	<div className="UserTable">
 					<div id="scroll">
+						{this.deletesuccessPopUp()} 
+						{this.successPopUp()} 
+						{this.errorPopUp()} 
 			     	<table className="table">
-			     	<TableHeader headerdata={this.state.data[0]} className="tableheader" checkedChange={this.checkedChange} checked={this.state.allchecked}/>
+			     	<TableHeader headerdata={this.state.data[0]} className="tableheader" checkedChange={this.checkedChange} />
 			     	<TableRow isdisabledprop={this.isDisable}  dataArray={this.state.data} guids={this.state.guids} editBtn={this.onClickEditBtn} checkBoxChanges={this.checkBoxChanges}/>
 			     	</table>
 					

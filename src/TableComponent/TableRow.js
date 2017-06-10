@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import pencil from "./pencil.png";
+import pencil from "../StyleSheet/pencil.png";
 
 class TableRow extends Component {
 	constructor(props) {
@@ -41,10 +41,10 @@ class TableRow extends Component {
 					 <td key={index} id="checkbox">
 						 <input type="checkbox" ref={index} id={index} onChange ={this.checkBoxOnChange }  /> 
 					 </td>
-			     	<td key={data["Full name"]+{index}}>
+			     	<td key={data["Full name"]+"FN"}>
 				     	{data["Full name"]}
 			     	</td>
-			     	<td key={["Company name"]+{index}}>
+			     	<td key={["Company name"]+"CN"}>
 				     	{data["Company name"]}
 				     </td>
 					  <td key={data.Position + "_P"}>

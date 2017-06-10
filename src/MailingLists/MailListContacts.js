@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import del from "./delete.jpg";
+import del from "../StyleSheet/delete.jpg";
 
 class MailListContacts extends Component {
 	constructor(props) {
@@ -41,8 +41,8 @@ class MailListContacts extends Component {
 		
 		if(this.state.delete){
 			return(
-				<div className="deleteBox">
-					<div className="deletePopUp">
+				<div className="PopUpBox">
+					<div className="PopUp">
 						<h4>Are you sure?</h4>
 						<button className="See_Contacts " onClick={this.deleteContact} >Yes</button>
 						<button className="See_Contacts" onClick={this.changePopupState}>No</button>
@@ -89,8 +89,8 @@ class MailListContacts extends Component {
 		     	);
 		     	return(
                         <div className ="inlineBlock">
-							<h3>{this.props.header}</h3>
 							{this.deletePopUp()}
+							<h3>{this.props.header}</h3>
                             <table>
                                 
                                 <tbody>
