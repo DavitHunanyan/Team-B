@@ -51,8 +51,13 @@ table th{
 #templateSelect{
 	display: inline-block;
 	height: 60px;
-	border-radius: 10px;
 	margin-top: 20px;
+}
+#maillistlength{
+	width: 10px;
+}
+#checkbox{
+	width: 55px;
 }
 
 @media (max-width:304px) {

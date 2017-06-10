@@ -3,7 +3,7 @@
     width:20%;
     background-color: #735a73;
     overflow: hidden;
-    display: inline-flex;
+    display: flex;
     justify-content:center;
     height: 90%;
     float:left;

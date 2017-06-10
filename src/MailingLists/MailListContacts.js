@@ -90,7 +90,7 @@ class MailListContacts extends Component {
 		     	return(
                         <div className ="inlineBlock">
 							{this.deletePopUp()}
-							<h3>{this.props.header}</h3>
+							<h3>Mailing List Name :   {this.props.header}</h3>
                             <table>
                                 
                                 <tbody>

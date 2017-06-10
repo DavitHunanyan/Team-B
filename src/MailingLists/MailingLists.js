@@ -287,7 +287,7 @@ class MailingLists extends Component {
                            <tr>
                                 <th>Choose</th>
                                 <th>Name</th>
-                                <th>Contacts </th>
+                                <th></th>
                                 <th>Action</th>
                             </tr>
                        </thead>
@@ -300,7 +300,7 @@ class MailingLists extends Component {
 			     	 <td key={data.MailingListName +"MLN"}>
 				     	{data.MailingListName}
                      </td>
-					  <td key={data.Contacts.length+"L"}>
+					  <td id="maillistlength" key={data.Contacts.length+"L"}>
 				     	{data.Contacts.length}
                      </td>
 			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >View</button></td>
@@ -311,7 +311,7 @@ class MailingLists extends Component {
 						 {this.errorPopUp()} 
 						  {this.successPopUp()} 
                         <div className ="Block">
-							<h3>Mailing List</h3>
+							<h3>Mailing Lists</h3>
                             <table>
                                 {headers}
                                 <tbody>
