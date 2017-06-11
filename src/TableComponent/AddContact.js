@@ -35,13 +35,13 @@ class AddContact extends Component {
 
                 }
                 if (response.status === 400) {
-                    alert("You are already registersed");
+                  // alert("Not valid contact"); 
                 }
             }).catch(error => {
                 alert("Something went wrong");
             })
         } else {
-            alert("Not valid contact");
+           // alert("Not valid contact");
         }
     }
 	
@@ -50,19 +50,21 @@ class AddContact extends Component {
 			return(
 				<div className="AddRow">
 					<div className="AddRoWBox"> 
+                    <form>
 				    <span>Full Name</span>
-					<p>	<input type="text"  ref="fullName"/></p>
+					<p>	<input type="text"  ref="fullName" required/></p>
 					<span>Company</span>
-					<p> <input type="text" ref="companyName"/></p>
+					<p> <input type="text" ref="companyName" required/></p>
 					<span>Position </span>
-					<p><input type="text"   ref="position"/></p>
+					<p><input type="text"   ref="position"required/></p>
 					<span>Country</span>
-					<p><input type="text"   ref="country"/></p>
+					<p><input type="text"   ref="country"required/></p>
 					<span>Email</span>
-					<p><input type="text"   ref="email"/></p>
+					<p><input type="email"   ref="email"required/></p>
 
 				    <button  className="btnAll" id="sendBtn" onClick={this.saveContact}>Save</button>
 					<button className="btnAll" id="deleteBtn" onClick={this.props.back}>Back</button>
+                    </form>
 					</div>
 				</div>
 					

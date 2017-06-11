@@ -3,11 +3,17 @@ class UploadFile extends Component {
         constructor(props){
             super(props);
             this.state={
-                disabled:true
+                disabled:true,
+                message:false,
+                responseMessage:"",
+                error:false
             }
 
             this.UploadFile =this.UploadFile.bind(this);
             this.fileInputOnChange = this.fileInputOnChange.bind(this);
+            this.responseMessagePopUp =this.responseMessagePopUp.bind(this);
+            this.ok = this.ok.bind(this);
+            this.errorPopUp = this.errorPopUp.bind(this);
             
         }
 
@@ -23,18 +29,31 @@ UploadFile(){
 				"Accept": "application/json",
 				body: data
 			}).then(function (res) {
-				//console.log("response",res)
+				console.log("response",res)
                 if(res.status === 200){
-                    self.props.back();
                     self.props.update();
                 }
-                if(res.status===400){
-                    //alert("Data in file is corrupt");
+                if(res.status === 500){
+                    self.setState({
+                     error:true
+                    })
                 }
-				return res.json()
-			})//.then(res => console.log(res))
-      }else{
-          alert("No Selected File");
+                return res.json();
+			}).then(res =>{ 
+                console.log("Message",res)
+                if(typeof(res) ==="object"){
+                 self.setState({
+                     message:true,
+                     responseMessage:res.Message
+                    })
+                }
+                if(typeof(res) ==="string"){
+                 self.setState({
+                     message:true,
+                     responseMessage:res
+                    })
+                }
+        })
       }
          }
      fileInputOnChange(){
@@ -48,10 +67,54 @@ UploadFile(){
              })
          }
      }
+     ok(){
+         this.setState({
+            message:false,
+         })
+         this.props.back();
+     }
+     responseMessagePopUp(){
+			if(this.state.message){
+				
+				return(
+					<div className="PopUpBox">
+						<div className="messagePopUp">
+							<div className="Container">
+							<div id="message">
+                                <span>{this.state.responseMessage}</span><br/>
+                                <button className="See_Contacts" onClick={this.ok}>Ok</button>
+                            </div>
+                            
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
+    errorPopUp(){
+				let self = this;
+			if(this.state.error){
+				setTimeout(function(){
+					self.setState({
+						error:false
+					})
+				},3000)
+				return(
+					<div className="PopUpBox">
+						<div className="PopUp">
+							<div className="errorContainer">
+							<div className="error"><b>File or data is corrupt !</b></div>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		}
 	render(){
         return(
             <div className="uploadCSV">
-                
+                {this.responseMessagePopUp()}
+                {this.errorPopUp()}
                     <input name="data" type="file" onChange={this.fileInputOnChange}></input>
                    <button className="btnAll" id="sendBtn" disabled={this.state.disabled} onClick={this.UploadFile} >Upload</button>
                 

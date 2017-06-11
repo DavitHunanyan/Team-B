@@ -25,6 +25,7 @@ class TableRow extends Component {
 
 			}
 		}
+		this.props.disableTrue();
 		if (this.props.guids.length === 0) {
 			this.props.isdisabledprop(true);
 		} else {

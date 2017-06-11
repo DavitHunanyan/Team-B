@@ -54,6 +54,7 @@ class Table extends Component {
         this.successPopUp = this.successPopUp.bind(this);
         this.errorPopUp = this.errorPopUp.bind(this);
         this.deletesuccessPopUp = this.deletesuccessPopUp.bind(this);
+        this.disableTrue = this.disableTrue.bind(this);
     }
     checkBoxChanges(target) {
         this.checkedBoxArray.push(target);
@@ -260,7 +261,15 @@ class Table extends Component {
             }
         }
     }
-
+    disableTrue(){
+         if(this.state.guids.length === 0){
+		this.setState({
+			disabledAddToList:true,
+            disabledSendBtn: true,
+            creatListBtndisabled: true
+		})
+	 }
+    }
 	deletePopUp(){
 		if(this.state.delete){
 			return(
@@ -438,7 +447,7 @@ class Table extends Component {
 						{this.errorPopUp()} 
 			     	<table className="table">
 			     	<TableHeader headerdata={this.state.data[0]} className="tableheader" checkedChange={this.checkedChange} />
-			     	<TableRow isdisabledprop={this.isDisable}  dataArray={this.state.data} guids={this.state.guids} editBtn={this.onClickEditBtn} checkBoxChanges={this.checkBoxChanges}/>
+			     	<TableRow isdisabledprop={this.isDisable} disableTrue={this.disableTrue} dataArray={this.state.data} guids={this.state.guids} editBtn={this.onClickEditBtn} checkBoxChanges={this.checkBoxChanges}/>
 			     	</table>
 					
 			     </div>

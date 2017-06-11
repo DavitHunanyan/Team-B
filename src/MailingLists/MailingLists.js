@@ -148,6 +148,7 @@ class MailingLists extends Component {
     }
     checkBoxOnChange(event) {
         this.checkedBoxArray.push(event.target);
+       
         let index = event.target.id;
         if (event.target.checked === true) {
             this.state.selectedMailListId.push(this.state.maillists[index].MailingListId);
@@ -162,6 +163,16 @@ class MailingLists extends Component {
 
             }
         }
+         if (this.state.selectedMailListId.length === 1 &&  this.TemplateId !=="") {
+            this.setState({
+                disSendBtn: false
+            })
+        } 
+        if(this.state.selectedMailListId.length !==1){
+            this.setState({
+                disSendBtn: true
+            })
+        }
         if (this.state.selectedMailListId.length > 0) {
             this.setState({
                 deleteBtnDisable: false
@@ -174,7 +185,7 @@ class MailingLists extends Component {
     }
     getSeletValue(value) {
         this.TemplateId = value;
-        if (value !== "" && this.state.selectedMailListId.length > 0) {
+        if (value !== "" && this.state.selectedMailListId.length > 0 && this.state.selectedMailListId.length < 2) {
             this.setState({
                 disSendBtn: false
             })
@@ -263,7 +274,11 @@ class MailingLists extends Component {
 					self.setState({
 					success:true
 				})
-				}
+				}else{
+                    self.setState({
+					error:true
+				})
+                }
 			}).catch(error => {
 				self.setState({
 					error:true
@@ -287,7 +302,7 @@ class MailingLists extends Component {
                            <tr>
                                 <th>Choose</th>
                                 <th>Name</th>
-                                <th></th>
+                                <th>Count</th>
                                 <th>Action</th>
                             </tr>
                        </thead>
@@ -303,30 +318,32 @@ class MailingLists extends Component {
 					  <td id="maillistlength" key={data.Contacts.length+"L"}>
 				     	{data.Contacts.length}
                      </td>
-			     	<td ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >View</button></td>
+			     	<td id="viewBtntd" ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >View</button></td>
 		     	</tr>
 		     	);
 		     	return(
                      <div>
 						 {this.errorPopUp()} 
 						  {this.successPopUp()} 
-                        <div className ="Block">
-							<h3>Mailing Lists</h3>
-                            <table>
-                                {headers}
-                                <tbody>
-                                    {row}
-                                </tbody>
-                            </table>
-							
-							  <div id="templateSelect">
-									<span>Template :</span>
+                          <div className="toolbar">
+                          <div className="buttoncontainer">
+                           <div id="templateSelect">
 								<TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
 								<button key="sendBtn" className="btnAll" id="sendBtn" disabled={this.state.disSendBtn} onClick={this.sendMail}>Send Mail</button>
 							 </div>
 							 <div className="btnDiv">
                              <button id="deleteBtn" disabled={this.state.deleteBtnDisable} className="btnAll" onClick={this.changeDeleteState}>Delete </button>{this.deletePopUp()}
 							 </div>
+                             </div>
+                             </div>
+                        <div className ="BlockLists">
+							{/*<h3>Mailing Lists</h3>*/}
+                            <table>
+                                {headers}
+                                <tbody>
+                                    {row}
+                                </tbody>
+                            </table>
                         </div>
                         <div className="Block" >
                           <MailListContacts update={this.update} updateContacts={this.updateFromContactslist} data={this.state.mailListContacts} header={this.state.mailListHeader} MailingListId={this.state.MailingListId} />

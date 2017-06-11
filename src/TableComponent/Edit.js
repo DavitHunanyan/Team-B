@@ -39,19 +39,21 @@ class Edit extends Component {
 				return(
 				<div className="AddRow">
 					<div className="AddRoWBox"> 
-				    <span>Full Name</span>
-					<p>	<input type="text" defaultValue={this.props.data["Full name"]} ref="fullName"/></p>
-					<span>Company</span>
-					<p> <input type="text"  defaultValue={this.props.data["Company name"]}ref="companyName"/></p>
-					<span>Position </span>
-					<p><input type="text"  defaultValue={this.props.data.Position} ref="position"/></p>
-					<span>Country</span>
-					<p><input type="text"  defaultValue={this.props.data.Country} ref="country"/></p>
-					<span>Email</span>
-					<p><input type="email"  defaultValue={this.props.data.Email} ref="email"/></p>
+					<form>
+						<span>Full Name</span>
+						<p>	<input type="text" defaultValue={this.props.data["Full name"]} ref="fullName" required/></p>
+						<span>Company</span>
+						<p> <input type="text"  defaultValue={this.props.data["Company name"]}ref="companyName" required/></p>
+						<span>Position </span>
+						<p><input type="text"  defaultValue={this.props.data.Position} ref="position" required/></p>
+						<span>Country</span>
+						<p><input type="text"  defaultValue={this.props.data.Country} ref="country" required/></p>
+						<span>Email</span>
+						<p><input type="email"  defaultValue={this.props.data.Email} ref="email" required/></p>
 
-				    <p><button className="btnAll" id="sendBtn" onClick={this.save}>Save</button>
-					<button className="btnAll" id="deleteBtn" onClick={this.props.cancel}>Cancel</button></p>
+						<p><button className="btnAll" id="sendBtn" onClick={this.save}>Save</button>
+						<button className="btnAll" id="deleteBtn" onClick={this.props.cancel}>Cancel</button></p>
+					</form>
 
 					</div>
 				</div>

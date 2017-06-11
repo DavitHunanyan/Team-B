@@ -82,15 +82,15 @@ class MailListContacts extends Component {
 			     	<td key={data.Email+ "E"}>
 			     	    {data.Email}
 			     	</td>
-					 <td>
+					 <td id="tresh">
 						 <img id ={index} src={del} alt="" onClick={this.changeDeleteState} width="20px" height="20px"></img> 
 						 </td>
 		     	</tr>
 		     	);
 		     	return(
-                        <div className ="inlineBlock">
+                        <div >
 							{this.deletePopUp()}
-							<h3>Mailing List Name :   {this.props.header}</h3>
+							<h3 className="Maillistcontactsheader">{this.props.header}</h3>
                             <table>
                                 
                                 <tbody>

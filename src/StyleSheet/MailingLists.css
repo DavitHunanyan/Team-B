@@ -1,26 +1,51 @@
-.Block{
-	float: left;
-	margin: 20px 10px;;
+.toolbar{
+	width: 100%;
 }
 
-table {
-    width: 100%;
-    margin: 0px auto;
+.Maillistcontactsheader{
+	margin: 0 auto;
+}
+.BlockLists table {
     border: solid 2px #735A73;
     border-collapse: collapse;
 	 border-bottom: 0;
 	 
 }
-
-table td{
+.BlockLists table td{
 	border:solid 2px #735A73;
 	border-collapse: collapse;
 	text-align: left;
 	padding: 5px 5px;
 	
 }
+#viewBtntd{
+	text-align: center;
+}
+.BlockLists table th{
+	border:solid 2px #735A73;
+	border-collapse: collapse;
+	text-align: center;
+	padding: 5px 5px;
+	
+}
+.BlockLists{
+	margin: 10px 10px;
+}
 
-table th{
+.Block{
+	margin: 10px 10px;
+	width: 100%;
+}
+.Block table {
+    border: solid 2px #735A73;
+    border-collapse: collapse;
+	 border-bottom: 0;
+	 
+}
+#tresh{
+	text-align: center;
+}
+.Block table td{
 	border:solid 2px #735A73;
 	border-collapse: collapse;
 	text-align: left;
@@ -42,7 +67,7 @@ table th{
 	margin: 0 auto;
 	line-height: 2;
 	margin-top:250px; 
-	border: solid 2px #167ec9;
+	border: solid 2px #513654;
 	padding: 5px;
 	height: 100px;
 	border-radius: 10px;
@@ -53,11 +78,8 @@ table th{
 	height: 60px;
 	margin-top: 20px;
 }
-#maillistlength{
-	width: 10px;
-}
 #checkbox{
-	width: 55px;
+	width:40px;
 }
 
 @media (max-width:304px) {
