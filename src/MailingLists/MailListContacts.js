@@ -87,6 +87,7 @@ class MailListContacts extends Component {
 						 </td>
 		     	</tr>
 		     	);
+				 if(this.props.data.length > 0){
 		     	return(
                         <div >
 							{this.deletePopUp()}
@@ -98,7 +99,16 @@ class MailListContacts extends Component {
                                 </tbody>
                             </table>
                         </div>
-        );
+                     );
+				 }
+				 if(this.props.data.length === 0){
+					 return(
+						 <div className="emptyMaillistContact">
+					  <h3 className="Maillistcontactsheader">{this.props.header}</h3>
+					 <div className="Nocontact">{this.props.noContact}</div>
+					 </div>
+					 );
+				 }
 		}
     
 	

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../StyleSheet/MailingLists.css';
+import pencil from "../StyleSheet/pencil.png";
 import MailListContacts from './MailListContacts.js';
 import TemplateSelect from '../TableComponent/TemplateSelect.js';
 
@@ -20,7 +21,12 @@ class MailingLists extends Component {
             error: false,
             success: false,
             MailingListId: "",
-            SelectMailListIndex: ""
+            SelectMailListIndex: "",
+            rename:false,
+            maillistNameForRename:"",
+            renameInputValue:"",
+            renamelistId:"",
+            emptylistmessage:""
         }
         this.seeContacts = this.seeContacts.bind(this);
         this.checkBoxOnChange = this.checkBoxOnChange.bind(this);
@@ -33,6 +39,11 @@ class MailingLists extends Component {
         this.updateFromContactslist = this.updateFromContactslist.bind(this);
         this.errorPopUp = this.errorPopUp.bind(this);
         this.successPopUp = this.successPopUp.bind(this);
+        this.maillistRenamePopUp = this.maillistRenamePopUp.bind(this);
+        this.rename  = this.rename.bind(this);
+        this.renameInputOnchange = this.renameInputOnchange.bind(this);
+        this.save = this.save.bind(this);
+        this.cancel = this.cancel.bind(this);
     }
 
     componentDidMount() {
@@ -97,7 +108,8 @@ class MailingLists extends Component {
         }).then(response => {
             self.setState({
                 maillists: response,
-                loading: false
+                loading: false,
+                emptylistmessage:""
             })
         }).catch(error => {
             self.setState({
@@ -112,7 +124,8 @@ class MailingLists extends Component {
             SelectMailListIndex: event.target.id,
             mailListContacts: datalist,
             mailListHeader: this.state.maillists[event.target.id].MailingListName,
-            MailingListId: this.state.maillists[event.target.id].MailingListId
+            MailingListId: this.state.maillists[event.target.id].MailingListId,
+            emptylistmessage:" No Contact"
         })
         return fetch('http://crmbetb.azurewebsites.net/api/MailingLists/' + this.state.maillists[event.target.id].MailingListId).then(function(response) {
             if (response.status === 200) {
@@ -247,6 +260,71 @@ class MailingLists extends Component {
 			)
 		}
 	}
+    renameInputOnchange(){
+       // console.log("rename",this.refs.rename.value);
+        this.setState({
+            maillistNameForRename:this.refs.rename.value
+        })
+    }
+    save(){
+        let self = this;
+        if(this.refs.rename.value !==""){
+            console.log("save");
+			return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/rename/"+this.state.renamelistId, {
+			method: "PUT",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(self.state.maillistNameForRename)
+
+		}).then(response => {
+			//console.log("edit",response);
+			if (response.status === 200) {
+				self.setState({
+                    rename:false,
+                    success:true
+                })
+			}
+		}).catch(error => {
+			//console.log(error);
+			self.setState({
+                    rename:false,
+                    error:true
+                })
+		})
+		}
+    }
+    cancel(){
+        this.setState({
+            rename:false
+        })
+    }
+    maillistRenamePopUp(){
+		if(this.state.rename){
+			return(
+				<div className="PopUpBox">
+					<div className="PopUp">
+                        <form>
+						<input ref="rename" onChange={this.renameInputOnchange} required  className="renameinput" defaultValue ={this.state.renameInputValue}/>
+                        <button className="See_Contacts" onClick={this.save}>Save</button>
+                        <button className="See_Contacts" onClick={this.cancel}>Cancel</button>
+						</form>
+						
+					</div>
+				</div>
+			)
+		}
+	}
+    rename(event){
+        this.setState({
+            rename:true,
+             renameInputValue:this.state.maillists[event.target.id].MailingListName,
+             renamelistId:this.state.maillists[event.target.id].MailingListId
+        })
+        
+       // console.log("maillistname",this.state.maillists[event.target.id].MailingListId);
+    }
 	changeDeleteState(){
 		this.setState({delete:!this.state.delete});
 	}
@@ -303,7 +381,7 @@ class MailingLists extends Component {
                                 <th>Choose</th>
                                 <th>Name</th>
                                 <th>Count</th>
-                                <th>Action</th>
+                                <th colSpan="2">Action</th>
                             </tr>
                        </thead>
          const data=this.state.maillists
@@ -318,13 +396,16 @@ class MailingLists extends Component {
 					  <td id="maillistlength" key={data.Contacts.length+"L"}>
 				     	{data.Contacts.length}
                      </td>
-			     	<td id="viewBtntd" ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >View</button></td>
+                     <td><img  alt="pencil" id ={index} onClick={this.rename} src={pencil} width="20px" height="20px"/></td>
+			     	<td id="centert" ><button className="See_Contacts" id={index} onClick={this.seeContacts}  >View</button></td>
+
 		     	</tr>
 		     	);
 		     	return(
                      <div>
 						 {this.errorPopUp()} 
 						  {this.successPopUp()} 
+                          {this.maillistRenamePopUp()}
                           <div className="toolbar">
                           <div className="buttoncontainer">
                            <div id="templateSelect">
@@ -337,7 +418,6 @@ class MailingLists extends Component {
                              </div>
                              </div>
                         <div className ="BlockLists">
-							{/*<h3>Mailing Lists</h3>*/}
                             <table>
                                 {headers}
                                 <tbody>
@@ -346,7 +426,7 @@ class MailingLists extends Component {
                             </table>
                         </div>
                         <div className="Block" >
-                          <MailListContacts update={this.update} updateContacts={this.updateFromContactslist} data={this.state.mailListContacts} header={this.state.mailListHeader} MailingListId={this.state.MailingListId} />
+                          <MailListContacts update={this.update} updateContacts={this.updateFromContactslist} data={this.state.mailListContacts} header={this.state.mailListHeader} MailingListId={this.state.MailingListId} noContact={this.state.emptylistmessage} />
                         </div>
                      </div>
                      

@@ -18,8 +18,14 @@
 	padding: 5px 5px;
 	
 }
-#viewBtntd{
+#centertd{
 	text-align: center;
+}
+#maillistlength{
+	text-align: center;
+}
+.renameinput{
+	margin-top: 10px;
 }
 .BlockLists table th{
 	border:solid 2px #735A73;
@@ -44,6 +50,9 @@
 }
 #tresh{
 	text-align: center;
+}
+.buttoncontainer{
+	padding-left: 10px;
 }
 .Block table td{
 	border:solid 2px #735A73;
@@ -81,7 +90,17 @@
 #checkbox{
 	width:40px;
 }
-
+.emptyMaillistContact{
+	padding: 30px;
+}
+.Nocontact{
+	font-size: 25px;
+	color:red;
+	margin: 30px 50px;
+}
+#action{
+	callspan:2
+}
 @media (max-width:304px) {
 	#templateSelect{
 		margin-bottom: 8px;

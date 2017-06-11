@@ -15,7 +15,8 @@ class Edit extends Component {
 
 		}
 		let self = this;
-		this.props.save();
+		if(this.refs.fullName.value !=="" && this.refs.companyName.value !=="" && this.refs.position.value !=="" && 
+		this.refs.country.value !=="" &&  this.refs.email.value !=="" ){
 			return fetch("http://crmbetb.azurewebsites.net/api/Contacts?Guid="+self.props.data.Guid, {
 			method: "PUT",
 			headers: {
@@ -28,11 +29,13 @@ class Edit extends Component {
 			//console.log("edit",response);
 			if (response.status === 204) {
 				self.props.update();
+				self.props.save();
 			}
 		}).catch(error => {
 			console.log(error);
-			alert("Something went wrong");
+			//alert("Something went wrong");
 		})
+		}
 	}
 			
 			render(){ 

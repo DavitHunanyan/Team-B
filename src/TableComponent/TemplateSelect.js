@@ -37,7 +37,7 @@ class TemplateSelect extends Component {
         return(
             <select onChange={this.selectOnChange} defaultValue="">
                 {this.state.Template.map(this.renderTemplate)}
-            <option value ="">No Selected</option>
+            <option value ="">Choose Template</option>
             </select>
         );
     }

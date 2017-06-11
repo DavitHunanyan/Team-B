@@ -225,7 +225,7 @@ class Table extends Component {
     createMailList() {
         let self = this;
         if (this.refs.creatMList.value) {
-            if (this.state.guids.length > 0) {
+            if (this.refs.creatMList.value!=="") {
                 this.setState({
                     creatListBtndisabled: true,
                     disabled: true,
@@ -397,8 +397,6 @@ class Table extends Component {
 					error:true
 				})
 		})
-		}else{
-			alert("no select mailing list or no choose contact");
 		}
 	}
 	render(){
@@ -452,10 +450,10 @@ class Table extends Component {
 					
 			     </div>
 				 <div className="BtnBox">
-				 	<button key ="addBtn" className="btnAll" id="addBtn"  onClick={this.addContact}>Add Contact</button>
+				 	<button key ="addBtn" className="btnAll" id="addBtn"  onClick={this.addContact}>Add</button>
 					 <div id="templateSelectBox">
 					 <TemplateSelect getValue={this.getSeletValue} sendBtnDisable={this.state.disabledSendBtn} />
-				 	<button key="sendBtn" className="btnAll" id="sendBtn" disabled={this.state.disabledSendBtn} onClick={this.sendMail}>Send Mail</button>
+				 	<button key="sendBtn" className="btnAll" id="sendBtn" disabled={this.state.disabledSendBtn} onClick={this.sendMail}>Send</button>
 					 </div>
 					 <div className="btnDiv">
 					  <button key="deletBtn" className="btnAll" id="deleteBtn" disabled={this.state.disabled} onClick={this.changeDeleteState}>Delete</button>{this.deletePopUp()} 
@@ -464,7 +462,7 @@ class Table extends Component {
 					  <input type="text" ref="creatMList" placeholder="List Name" onChange={this.mailListName} id="listname"/>
 					  <button key="createMailListBtn" className="btnAll" id="createMailListBtn" onClick={this.createMailList} disabled={this.state.creatListBtndisabled}>Create List</button>
 					  </div>
-					  <button  className="btnAll" id="Upload_btn" onClick={this.uploadFile}>Upload File</button>
+					  <button  className="btnAll" id="Upload_btn" onClick={this.uploadFile}>Upload</button>
 					  <div id="maillist">
 					  <MailListSelect onChange={this.onChangefromMailListSelect} />
 					  <button key="MailListadd" className="btnAll" id="createMailListBtn" onClick={this.addToList}  disabled={this.state.disabledAddToList} >Add to List</button>
