@@ -27,6 +27,7 @@ class MailingLists extends Component {
             renameInputValue:"",
             renamelistId:"",
             emptylistmessage:""
+            
         }
         this.seeContacts = this.seeContacts.bind(this);
         this.checkBoxOnChange = this.checkBoxOnChange.bind(this);
@@ -44,18 +45,21 @@ class MailingLists extends Component {
         this.renameInputOnchange = this.renameInputOnchange.bind(this);
         this.save = this.save.bind(this);
         this.cancel = this.cancel.bind(this);
+        this.loading = this.loading.bind(this);
     }
 
     componentDidMount() {
         let self = this;
         return fetch('http://crmbetb.azurewebsites.net/api/MailingLists').then(function(response) {
             if (response.status === 200) {
+                 self.setState({
+                loading: false
+            })
                 return response.json();
             }
         }).then(response => {
             self.setState({
                 maillists: response,
-                loading: false
             })
         }).catch(error => {
             self.setState({
@@ -125,7 +129,7 @@ class MailingLists extends Component {
             mailListContacts: datalist,
             mailListHeader: this.state.maillists[event.target.id].MailingListName,
             MailingListId: this.state.maillists[event.target.id].MailingListId,
-            emptylistmessage:" No Contact"
+            emptylistmessage:" has no contact"
         })
         return fetch('http://crmbetb.azurewebsites.net/api/MailingLists/' + this.state.maillists[event.target.id].MailingListId).then(function(response) {
             if (response.status === 200) {
@@ -143,10 +147,17 @@ class MailingLists extends Component {
         })
     }
     updateFromContactslist() {
+        this.setState({
+            loading:true
+        })
         let self = this;
         return fetch('http://crmbetb.azurewebsites.net/api/MailingLists/' + this.state.maillists[self.state.SelectMailListIndex].MailingListId).then(function(response) {
             if (response.status === 200) {
+                self.setState({
+                     loading:false
+                    })
                 return response.json();
+                
             }
         }).then(response => {
             self.setState({
@@ -155,7 +166,8 @@ class MailingLists extends Component {
             })
         }).catch(error => {
             self.setState({
-                error: true
+                error: true,
+                loading:false
             })
         })
     }
@@ -266,10 +278,20 @@ class MailingLists extends Component {
             maillistNameForRename:this.refs.rename.value
         })
     }
+    loading(){
+        if(this.state.loading){
+					return(
+						<div className="UserTable">
+						    <div className="loading">
+								<div className="loadingtext">Loading ...</div>
+							</div>
+			        	</div> 
+					);
+				}
+    }
     save(){
         let self = this;
         if(this.refs.rename.value !==""){
-            console.log("save");
 			return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/rename/"+this.state.renamelistId, {
 			method: "PUT",
 			headers: {
@@ -279,12 +301,13 @@ class MailingLists extends Component {
 			body: JSON.stringify(self.state.maillistNameForRename)
 
 		}).then(response => {
-			//console.log("edit",response);
+			console.log("edit",response);
 			if (response.status === 200) {
 				self.setState({
                     rename:false,
                     success:true
                 })
+                self.update();
 			}
 		}).catch(error => {
 			//console.log(error);
@@ -304,7 +327,8 @@ class MailingLists extends Component {
 		if(this.state.rename){
 			return(
 				<div className="PopUpBox">
-					<div className="PopUp">
+					<div className="renamePopUp">
+                        <span>Rename mailing list</span>
                         <form>
 						<input ref="rename" onChange={this.renameInputOnchange} required  className="renameinput" defaultValue ={this.state.renameInputValue}/>
                         <button className="See_Contacts" onClick={this.save}>Save</button>
@@ -333,7 +357,8 @@ class MailingLists extends Component {
 		let self = this;
 		this.setState({
 			disSendBtn: true,
-			selectedMailListId: []
+			selectedMailListId: [],
+            loading:true
 		});
 		for (let i = 0; i < this.checkedBoxArray.length; ++i) {
 			this.checkedBoxArray[i].checked = false;
@@ -350,16 +375,19 @@ class MailingLists extends Component {
 			}).then(response => {
 				if (response.status === 200) {
 					self.setState({
-					success:true
+					success:true,
+                    loading:false
 				})
 				}else{
                     self.setState({
-					error:true
+					error:true,
+                    loading:false
 				})
                 }
 			}).catch(error => {
 				self.setState({
-					error:true
+					error:true,
+                    loading:false
 				})
 			})
 
@@ -367,13 +395,13 @@ class MailingLists extends Component {
 
 	}
     render() {
-		if(this.state.loading){
+        if(this.state.loading){
 					return(
 						<div className="UserTable">
-						    <div className="loading">
-								<div className="loadingtext">Loading ...</div>
-							</div>
-			        	</div> 
+                             {this.loading()}
+							<div id="scroll">	
+			        		</div>
+						</div> 
 					);
 				}
         const headers = <thead>
@@ -381,7 +409,7 @@ class MailingLists extends Component {
                                 <th>Choose</th>
                                 <th>Name</th>
                                 <th>Count</th>
-                                <th colSpan="2">Action</th>
+                                <th colSpan="2">Actions</th>
                             </tr>
                        </thead>
          const data=this.state.maillists
@@ -406,6 +434,7 @@ class MailingLists extends Component {
 						 {this.errorPopUp()} 
 						  {this.successPopUp()} 
                           {this.maillistRenamePopUp()}
+                          {this.loading()}
                           <div className="toolbar">
                           <div className="buttoncontainer">
                            <div id="templateSelect">

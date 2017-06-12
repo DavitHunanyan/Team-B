@@ -103,9 +103,8 @@ class MailListContacts extends Component {
 				 }
 				 if(this.props.data.length === 0){
 					 return(
-						 <div className="emptyMaillistContact">
-					  <h3 className="Maillistcontactsheader">{this.props.header}</h3>
-					 <div className="Nocontact">{this.props.noContact}</div>
+						 <div >
+					  <h3 className="Maillistcontactsheader">{this.props.header}  {this.props.noContact}</h3>
 					 </div>
 					 );
 				 }

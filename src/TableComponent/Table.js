@@ -29,7 +29,7 @@ class Table extends Component {
             success: false,
             error: false,
             loading: true,
-            disabledAddToList: true
+            disabledAddToList: false
         };
         this.sendMail = this.sendMail.bind(this);
         this.getGuid = this.getGuid.bind(this);
@@ -55,6 +55,7 @@ class Table extends Component {
         this.errorPopUp = this.errorPopUp.bind(this);
         this.deletesuccessPopUp = this.deletesuccessPopUp.bind(this);
         this.disableTrue = this.disableTrue.bind(this);
+        this.loading = this.loading.bind(this);
     }
     checkBoxChanges(target) {
         this.checkedBoxArray.push(target);
@@ -72,6 +73,9 @@ class Table extends Component {
     }
     componentDidMount() {
         let self = this;
+        this.setState({
+            loading:true
+        })
         return fetch('http://crmbetb.azurewebsites.net/api/contacts').then(function(response) {
             if (response.status === 200) {
                 return response.json();
@@ -90,7 +94,8 @@ class Table extends Component {
         let self = this;
         this.setState({
             disabledSendBtn: true,
-            guids: []
+            guids: [],
+            loading:true
         });
         for (let i = 0; i < this.checkedBoxArray.length; ++i) {
             this.checkedBoxArray[i].checked = false;
@@ -108,7 +113,8 @@ class Table extends Component {
             }).then(response => {
                 if (response.status === 200) {
                     self.setState({
-                        success: true
+                        success: true,
+                        loading:false
                     })
                 }
             }).catch(error => {
@@ -399,9 +405,8 @@ class Table extends Component {
 		})
 		}
 	}
-	render(){
-				//console.log("this.state.guids",this.state.guids);
-				if(this.state.loading){
+    loading(){
+        if(this.state.loading){
 					return(
 						<div className="UserTable">
 						    <div className="loading">
@@ -410,9 +415,22 @@ class Table extends Component {
 			        	</div> 
 					);
 				}
+    }
+	render(){
+				//console.log("this.state.guids",this.state.guids);
+			if(this.state.loading){
+					return(
+						<div className="UserTable">
+                             {this.loading()}
+							<div id="scroll">	
+			        		</div>
+						</div> 
+					);
+				}
 				if(this.state.uploadFile){
 					return(
 						<div className="UserTable">
+                             {this.loading()}
 							<div id="scroll">
 			       			<UploadFile back={this.backfromUploadFile} update={this.update} />	
 			        		</div>

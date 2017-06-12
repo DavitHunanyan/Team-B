@@ -6,7 +6,8 @@ class UploadFile extends Component {
                 disabled:true,
                 message:false,
                 responseMessage:"",
-                error:false
+                error:false,
+                loading:false
             }
 
             this.UploadFile =this.UploadFile.bind(this);
@@ -14,11 +15,15 @@ class UploadFile extends Component {
             this.responseMessagePopUp =this.responseMessagePopUp.bind(this);
             this.ok = this.ok.bind(this);
             this.errorPopUp = this.errorPopUp.bind(this);
+            this.loading = this.loading.bind(this);
             
         }
 
 UploadFile(){
     if( document.querySelector('input[type="file"]').files[0]){
+        this.setState({
+                        loading:true
+                    })
     let self = this;
         let data = new FormData();
     	let fileData = document.querySelector('input[type="file"]').files[0];
@@ -32,6 +37,9 @@ UploadFile(){
 				console.log("response",res)
                 if(res.status === 200){
                     self.props.update();
+                    self.setState({
+                        loading:false
+                    })
                 }
                 if(res.status === 500){
                     self.setState({
@@ -73,6 +81,17 @@ UploadFile(){
          })
          this.props.back();
      }
+       loading(){
+        if(this.state.loading){
+					return(
+						<div className="UserTable">
+						    <div className="loading">
+								<div className="loadingtext">Loading ...</div>
+							</div>
+			        	</div> 
+					);
+				}
+    }
      responseMessagePopUp(){
 			if(this.state.message){
 				
@@ -113,6 +132,7 @@ UploadFile(){
 	render(){
         return(
             <div className="uploadCSV">
+                {this.loading()}
                 {this.responseMessagePopUp()}
                 {this.errorPopUp()}
                     <input name="data" type="file" onChange={this.fileInputOnChange}></input>

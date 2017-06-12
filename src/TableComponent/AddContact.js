@@ -2,18 +2,26 @@ import React,{Component} from 'react';
 class AddContact extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+                Fullname:"",
+                Companyname:"" ,
+                Position:"" ,
+                Country: "",
+                Email: ""
+        };
         this.saveContact = this.saveContact.bind(this);
+        this.inputOnChange = this.inputOnChange.bind(this);
     }
     saveContact() {
-        if (this.refs.fullName.value && this.refs.companyName.value &&
-            this.refs.position.value && this.refs.country.value && this.refs.email.value) {
-            let newContact = {
-                Fullname: this.refs.fullName.value,
-                Companyname: this.refs.companyName.value,
-                Position: this.refs.position.value,
-                Country: this.refs.country.value,
-                Email: this.refs.email.value
+       // console.log(this.state.Fullname);
+        if (this.state.Fullname!=="" && this.state.Companyname!=="" &&
+            this.state.Position!=="" && this.state.Country!=="" && this.Email!=="") {
+           let newContact = {
+               Fullname:this.state.Fullname,
+               Companyname: this.state.Companyname,
+               Position: this.state.Position,
+               Country: this.state.Country,
+               Email: this.state.Email
             }
             this.props.update();
             let self = this;
@@ -45,6 +53,15 @@ class AddContact extends Component {
         }
     }
 	
+    inputOnChange(){
+        this.setState({
+                Fullname: this.refs.fullName.value,
+                Companyname: this.refs.companyName.value,
+                Position: this.refs.position.value,
+                Country: this.refs.country.value,
+                Email: this.refs.email.value
+        })
+    }
 		render(){
 				
 			return(
@@ -52,15 +69,15 @@ class AddContact extends Component {
 					<div className="AddRoWBox"> 
                     <form>
 				    <span>Full Name</span>
-					<p>	<input type="text"  ref="fullName" required/></p>
+					<p>	<input type="text"  ref="fullName" required onChange={this.inputOnChange}/></p>
 					<span>Company</span>
-					<p> <input type="text" ref="companyName" required/></p>
+					<p> <input type="text" ref="companyName" required onChange={this.inputOnChange}/></p>
 					<span>Position </span>
-					<p><input type="text"   ref="position"required/></p>
+					<p><input type="text"   ref="position"required onChange={this.inputOnChange}/></p>
 					<span>Country</span>
-					<p><input type="text"   ref="country"required/></p>
+					<p><input type="text"   ref="country"required onChange={this.inputOnChange}/></p>
 					<span>Email</span>
-					<p><input type="email"   ref="email"required/></p>
+					<p><input type="email"   ref="email"required onChange={this.inputOnChange}/></p>
 
 				    <button  className="btnAll" id="sendBtn" onClick={this.saveContact}>Save</button>
 					<button className="btnAll" id="deleteBtn" onClick={this.props.back}>Back</button>
