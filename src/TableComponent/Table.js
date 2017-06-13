@@ -29,7 +29,7 @@ class Table extends Component {
             success: false,
             error: false,
             loading: true,
-            disabledAddToList: false
+            disabledAddToList: true
         };
         this.sendMail = this.sendMail.bind(this);
         this.getGuid = this.getGuid.bind(this);
@@ -377,6 +377,9 @@ class Table extends Component {
 	 }
 	}
 	addToList(){
+        this.setState({
+            disabledAddToList:true
+        })
 		if(this.MailListId!=="" && this.state.guids.length>0){
 			let self = this;
 		return fetch("http://crmbetb.azurewebsites.net/api/MailingLists/add/" + self.MailListId , {
@@ -400,7 +403,8 @@ class Table extends Component {
 		}).catch(error => {
 			console.log(error);
 				self.setState({
-					error:true
+					error:true,
+                    disabledAddToList:true
 				})
 		})
 		}

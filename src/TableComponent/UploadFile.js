@@ -20,10 +20,10 @@ class UploadFile extends Component {
         }
 
 UploadFile(){
-    if( document.querySelector('input[type="file"]').files[0]){
-        this.setState({
+      this.setState({
                         loading:true
                     })
+    if( document.querySelector('input[type="file"]').files[0]){
     let self = this;
         let data = new FormData();
     	let fileData = document.querySelector('input[type="file"]').files[0];
@@ -43,7 +43,8 @@ UploadFile(){
                 }
                 if(res.status === 500){
                     self.setState({
-                     error:true
+                     error:true,
+                     loading:false
                     })
                 }
                 return res.json();
@@ -52,13 +53,15 @@ UploadFile(){
                 if(typeof(res) ==="object"){
                  self.setState({
                      message:true,
-                     responseMessage:res.Message
+                     responseMessage:res.Message,
+                     loading:false
                     })
                 }
                 if(typeof(res) ==="string"){
                  self.setState({
                      message:true,
-                     responseMessage:res
+                     responseMessage:res,
+                     loading:false
                     })
                 }
         })
@@ -130,9 +133,18 @@ UploadFile(){
 			}
 		}
 	render(){
+        if(this.state.loading){
+           
+           return(
+						<div>
+                             {this.loading()}
+							
+						</div> 
+					);
+        
+        }
         return(
             <div className="uploadCSV">
-                {this.loading()}
                 {this.responseMessagePopUp()}
                 {this.errorPopUp()}
                     <input name="data" type="file" onChange={this.fileInputOnChange}></input>
